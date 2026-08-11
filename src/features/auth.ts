@@ -1,8 +1,9 @@
+import { Email } from "./user";
+
 export type PlainPassword = string;
-export type Username = string;
 export type AuthToken = string;
 
 export interface Credentials {
-  username: Username;
+  email: Email;
   password: PlainPassword;
 }
