@@ -1,0 +1,39 @@
+<main class="login-page">
+  <section class="login-card" aria-labelledby="login-title">
+    <form class="login-form">
+      <div class="login-form__field">
+        <label for="email">Email address</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          placeholder="you@example.com"
+          required
+        />
+      </div>
+
+      <div class="login-form__field">
+        <div class="login-form__label-row">
+          <label for="password">Password</label>
+          <a href="/auth/forgot-password">Forgot password?</a>
+        </div>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          placeholder="Enter your password"
+          required
+        />
+      </div>
+
+      <label class="login-form__remember">
+        <input name="remember" type="checkbox" />
+        <span>Remember me</span>
+      </label>
+
+      <button type="submit">Sign in</button>
+    </form>
+  </section>
+</main>
