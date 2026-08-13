@@ -43,7 +43,7 @@ export class LoginComponent {
       .login(credentials)
       .subscribe({
         next: ({ token }) => {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/menu']);
         },
         error: (err) => {
           console.error('Login failed:', err);

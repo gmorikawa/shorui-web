@@ -1,0 +1,14 @@
+sh-tile-button {
+  --button-background-color: #190eef;
+  --button-size: 150px;
+
+  --label-font-color: #eee;
+  --label-font-size: 1rem;
+}
+
+#menu-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 2rem;
+}
