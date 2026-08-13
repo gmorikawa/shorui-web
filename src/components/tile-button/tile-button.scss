@@ -1,0 +1,32 @@
+:host {
+  --button-background-color: #222;
+  --button-size: 150px;
+
+  --label-font-color: #eee;
+  --label-font-size: 1rem;
+}
+
+.base {
+  display: inline-block;
+  width: var(--button-size);
+  height: var(--button-size);
+  border: none;
+
+  background-color: var(--button-background-color);
+  color: var(--label-font-color);
+
+  font-weight: bold;
+  font-size: var(--label-font-size);
+
+  transition: transform 0.2s;
+
+  &:hover {
+    cursor: pointer;
+
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
