@@ -3,8 +3,8 @@ import { Router } from "@angular/router";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 
 import { AuthService } from "../../../services/auth";
-import { Credentials, PlainPassword } from "../../../features/auth";
-import { Email } from "../../../features/user";
+import { Credentials, PlainPassword } from "../../../features/auth/types";
+import { Email } from "../../../features/user/types";
 
 @Component({
   selector: "sh-login",

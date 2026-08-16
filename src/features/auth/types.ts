@@ -1,4 +1,4 @@
-import { Email } from "./user";
+import { Email } from "../user/types";
 
 export type PlainPassword = string;
 export type AuthToken = string;

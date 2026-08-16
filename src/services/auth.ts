@@ -3,9 +3,10 @@ import { Observable, tap } from "rxjs";
 import { inject, Service } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
-import { AuthToken, Credentials } from "../features/auth";
-import { NewAdmin } from "../features/user";
+import { AuthToken, Credentials } from "../features/auth/types";
+import { NewAdmin, NewUser } from "../features/user/types";
 import { environment } from "../environments/environment";
+import { MissingAuthTokenException } from "../features/auth/exceptions";
 
 export interface LoginResponse {
   token: AuthToken;
@@ -18,6 +19,10 @@ export class AuthService {
 
   public firstAccess(admin: NewAdmin): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/auth/first-access`, admin);
+  }
+
+  public registerUser(user: NewUser): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/auth/register`, user);
   }
 
   /**
@@ -36,5 +41,19 @@ export class AuthService {
           localStorage.setItem("authToken", response.token);
         })
       );
+  }
+
+  /**
+   * Retrieves the Bearer token from local storage for authenticated requests.
+   * 
+   * @throws {MissingAuthTokenException} If no auth token is found in local storage.
+   * @returns The Bearer token string.
+   */
+  public getBearerToken(): string {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      throw new MissingAuthTokenException();
+    }
+    return `Bearer ${localStorage.getItem("authToken")}`;
   }
 }

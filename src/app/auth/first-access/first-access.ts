@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth';
-import { Email, FullName, NewAdmin } from '../../../features/user';
-import { PlainPassword } from '../../../features/auth';
+import { Email, FullName, NewAdmin } from '../../../features/user/types';
+import { PlainPassword } from '../../../features/auth/types';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 
