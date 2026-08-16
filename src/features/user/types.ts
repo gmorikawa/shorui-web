@@ -1,4 +1,4 @@
-import { PlainPassword } from "../auth/types";
+import { PlainPassword } from "@features/auth/types";
 
 export type UserID = string;
 export type FullName = string;

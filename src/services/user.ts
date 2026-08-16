@@ -1,9 +1,9 @@
 import { Observable } from "rxjs";
 import { inject, Service } from "@angular/core";
 
-import { User } from "../features/user/types";
-import { APIService } from "./api";
-import { AuthService } from "./auth";
+import { User } from "@features/user/types";
+import { APIService } from "@services/api";
+import { AuthService } from "@services/auth";
 
 @Service()
 export class UserService extends APIService {

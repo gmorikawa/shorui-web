@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { TileButton } from '../../components/tile-button/tile-button';
-import { MainContainer } from '../../components/containers/main-container/main-container';
+import { TileButton } from '@components/tile-button/tile-button';
+import { MainContainer } from '@components/containers/main-container/main-container';
 
 @Component({
   selector: 'sh-menu',
