@@ -1,5 +1,9 @@
-.card {
+:host {
   padding: var(--spacing-md);
 
-  background-color: var(--color-secondary);
+  width: 100%;
+
+  background-color: var(--color-primary);
+  border: 2px solid var(--color-black);
+  box-shadow: 2px 2px 0 var(--color-black);
 }
