@@ -1,6 +1,10 @@
-.main-container {
+:host {
   padding: var(--spacing-md);
+
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: flex-start;
+
   min-height: 100vh;
 }
+
