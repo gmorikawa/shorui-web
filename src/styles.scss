@@ -1,17 +1,27 @@
+@use "./directives/primary-button/primary-button";
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: inherit;
+}
+
+body {
+  font-family: monospace;
 }
 
 :root {
-  --color-primary: #008b8b;
-  --color-secondary: #c0c0c0;
+  --color-black: #111;
+
+  --color-primary: #a6d075;
+  --color-secondary: #e6ab75;
   --color-success: #008000;
   --color-warning: #808000;
   --color-error: #800000;
+  --color-primary-background: #c1fbcb;
 
   --font-color-ghost: #747474;
 

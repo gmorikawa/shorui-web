@@ -1,0 +1,19 @@
+button[primary-button] {
+  padding: var(--spacing-md);
+  border: 2px solid var(--color-black);
+
+  background-color: var(--color-primary);
+  box-shadow: 2px 2px 0 var(--color-black);
+
+  color: var(--color-black);
+
+  &:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--color-black);
+  }
+
+  &:active {
+    transform: translate(0, 0);
+    box-shadow: unset;
+  }
+}
