@@ -1,0 +1,30 @@
+<card-container>
+  <h1>Register User</h1>
+
+  <form [formGroup]="userForm" (ngSubmit)="submit()">
+    <sh-text-input
+      property="name"
+      label="Full Name"
+      placeholder="Enter full name"
+      formControlName="name"
+    />
+
+    <sh-email-input
+      property="email"
+      label="Email Address"
+      placeholder="Enter email"
+      formControlName="email"
+    />
+
+    <sh-password-input
+      property="password"
+      label="Password"
+      placeholder="Create a password"
+      formControlName="password"
+    />
+
+    <button base-button type="submit" [disabled]="userForm.invalid">
+      Register
+    </button>
+  </form>
+</card-container>

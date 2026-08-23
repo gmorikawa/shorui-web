@@ -1,4 +1,10 @@
 <sh-stack>
+  <div>
+    <button base-button type="button" (click)="navigateToForm()">
+      Create
+    </button>
+  </div>
+
   @for (user of users(); track user.id) {
   <sh-user-card [user]="user" />
   }

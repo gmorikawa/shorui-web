@@ -3,6 +3,7 @@ import { UserService } from '@services/user';
 import { User } from '@features/user/types';
 import { UserCard } from '@app/user/components/user-card/user-card';
 import { Stack } from '@components/stack/stack';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'sh-user-list-page',
@@ -15,6 +16,7 @@ import { Stack } from '@components/stack/stack';
 })
 export class UserListPage implements OnInit {
   private readonly user = inject(UserService);
+  private readonly router = inject(Router);
 
   protected users = signal<User[]>([]);
 
@@ -26,4 +28,7 @@ export class UserListPage implements OnInit {
       });
   }
 
+  protected navigateToForm(): void {
+    this.router.navigate(['/users/register']);
+  }
 }
