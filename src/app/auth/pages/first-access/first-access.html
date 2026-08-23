@@ -1,0 +1,32 @@
+<auth-layout
+  eyebrow="System Setup"
+  title="Create administrator account"
+  description="Setup the administrator account for the system. This account will have full access to all features and settings."
+>
+  <form [formGroup]="firstAccessForm" (ngSubmit)="submit()">
+    <sh-text-input
+      property="name"
+      label="Full Name"
+      placeholder="Enter your name"
+      formControlName="name"
+    />
+
+    <sh-email-input
+      property="email"
+      label="Email Address"
+      placeholder="Enter your email"
+      formControlName="email"
+    />
+
+    <sh-password-input
+      property="password"
+      label="Password"
+      placeholder="Create a password"
+      formControlName="password"
+    />
+
+    <button base-button type="submit" [disabled]="firstAccessForm.invalid">
+      Setup
+    </button>
+  </form>
+</auth-layout>

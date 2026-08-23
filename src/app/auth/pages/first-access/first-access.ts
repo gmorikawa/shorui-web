@@ -1,25 +1,32 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { AuthLayout } from '@app/auth/components/auth-layout/auth-layout';
 import { AuthService } from '@services/auth';
 import { Email, FullName, NewAdmin } from '@features/user/types';
 import { PlainPassword } from '@features/auth/types';
-import { environment } from '@environments/environment';
-import { Router } from '@angular/router';
+import { BaseButtonDirective } from "@directives/base-button/base-button";
+import { PasswordInput } from '@components/form/password-input/password-input';
+import { TextInput } from '@components/form/text-input/text-input';
+import { EmailInput } from '@components/form/email-input/email-input';
 
 @Component({
   selector: 'sh-first-access',
-  imports: [ReactiveFormsModule],
+  imports: [
+    AuthLayout,
+    BaseButtonDirective,
+    EmailInput,
+    PasswordInput,
+    TextInput,
+    ReactiveFormsModule
+  ],
   templateUrl: './first-access.html',
   styleUrl: './first-access.scss',
 })
-export class FirstAccessComponent implements OnInit {
+export class FirstAccessPage {
   private readonly router = inject(Router);
   private readonly auth: AuthService = inject(AuthService);
-  private readonly apiUrl: string = environment.apiUrl;
-
-  ngOnInit(): void {
-    console.log('FirstAccessComponent initialized', this.apiUrl);
-  }
 
   protected readonly firstAccessForm = new FormGroup({
     name: new FormControl('', {

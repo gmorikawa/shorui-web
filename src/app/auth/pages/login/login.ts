@@ -5,14 +5,24 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angula
 import { AuthService } from "@services/auth";
 import { Credentials, PlainPassword } from "@features/auth/types";
 import { Email } from "@features/user/types";
+import { BaseButtonDirective } from "@directives/base-button/base-button";
+import { PasswordInput } from "@components/form/password-input/password-input";
+import { EmailInput } from "@components/form/email-input/email-input";
+import { AuthLayout } from "@app/auth/components/auth-layout/auth-layout";
 
 @Component({
   selector: "sh-login",
-  imports: [ReactiveFormsModule],
+  imports: [
+    AuthLayout,
+    BaseButtonDirective,
+    PasswordInput,
+    EmailInput,
+    ReactiveFormsModule
+  ],
   templateUrl: "./login.html",
   styleUrl: "./login.scss",
 })
-export class LoginComponent {
+export class LoginPage {
   private readonly router = inject(Router);
   private readonly auth = inject(AuthService);
 
@@ -29,6 +39,7 @@ export class LoginComponent {
   });
 
   protected submit(): void {
+    console.log('Form submitted with values:', this.loginForm.value);
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;

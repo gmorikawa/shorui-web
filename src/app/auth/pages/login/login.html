@@ -1,0 +1,32 @@
+<auth-layout
+  eyebrow="Authentication"
+  title="Sign in to your account"
+  description="Input your credentials to access the system."
+>
+  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="submit()">
+    <sh-email-input
+      property="email"
+      label="Email address"
+      placeholder="you@example.com"
+      [value]="loginForm.controls.email.value"
+      formControlName="email"
+    />
+
+    <sh-password-input
+      property="password"
+      label="Password"
+      placeholder="Enter your password"
+      formControlName="password"
+      [value]="loginForm.controls.password.value"
+    />
+
+    <label class="login-form__remember">
+      <input formControlName="remember" type="checkbox" />
+      <span>Remember me</span>
+    </label>
+
+    <button base-button type="submit">
+      Sign in
+    </button>
+  </form>
+</auth-layout>

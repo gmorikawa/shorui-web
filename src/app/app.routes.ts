@@ -1,17 +1,17 @@
 import { Routes } from '@angular/router';
-import { FirstAccessComponent } from '@app/auth/first-access/first-access';
-import { LoginComponent } from '@app/auth/login/login';
+import { FirstAccessPage } from '@app/auth/pages/first-access/first-access';
+import { LoginPage } from '@app/auth/pages/login/login';
 import { Menu } from '@app/menu/menu';
 import { UserListPage } from '@app/user/pages/list/list';
 
 export const routes: Routes = [
   {
     path: 'auth/first-access',
-    component: FirstAccessComponent,
+    component: FirstAccessPage,
   },
   {
     path: 'auth/login',
-    component: LoginComponent,
+    component: LoginPage,
   },
   {
     path: 'menu',

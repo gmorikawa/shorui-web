@@ -1,0 +1,13 @@
+<sh-main-container>
+  <sh-card>
+    <header>
+      <span class="card-eyebrow">{{ eyebrow() }}</span>
+      <h1 class="card-title">{{ title() }}</h1>
+      <p class="card-description">{{ description() }}</p>
+    </header>
+
+    <main>
+      <ng-content></ng-content>
+    </main>
+  </sh-card>
+</sh-main-container>
