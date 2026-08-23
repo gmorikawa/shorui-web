@@ -9,6 +9,7 @@ import { BaseButtonDirective } from "@directives/base-button/base-button";
 import { PasswordInput } from "@components/form/password-input/password-input";
 import { EmailInput } from "@components/form/email-input/email-input";
 import { AuthLayout } from "@app/auth/components/auth-layout/auth-layout";
+import { SwitchInput } from "@components/form/switch-input/switch-input";
 
 @Component({
   selector: "sh-login",
@@ -17,6 +18,7 @@ import { AuthLayout } from "@app/auth/components/auth-layout/auth-layout";
     BaseButtonDirective,
     PasswordInput,
     EmailInput,
+    SwitchInput,
     ReactiveFormsModule
   ],
   templateUrl: "./login.html",

@@ -20,10 +20,12 @@
       [value]="loginForm.controls.password.value"
     />
 
-    <label class="login-form__remember">
-      <input formControlName="remember" type="checkbox" />
-      <span>Remember me</span>
-    </label>
+    <sh-switch-input
+      property="remember"
+      label="Remember me"
+      formControlName="remember"
+      [value]="loginForm.controls.remember.value"
+    />
 
     <button base-button type="submit">
       Sign in

@@ -1,0 +1,14 @@
+<input base-input
+  type="checkbox"
+  [checked]="value()"
+  [id]="property()"
+  [disabled]="isDisabled()"
+  [placeholder]="placeholder()"
+  (input)="handleChange($event)"
+  [class.error]="error()"
+  [class.success]="!error()"
+/>
+
+<label [for]="property()">
+  {{ label() }}
+</label>
