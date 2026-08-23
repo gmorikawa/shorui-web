@@ -1,4 +1,4 @@
-button[primary-button] {
+button[base-button] {
   padding: var(--spacing-md);
   border: 2px solid var(--color-black);
 
@@ -15,5 +15,16 @@ button[primary-button] {
   &:active {
     transform: translate(0, 0);
     box-shadow: unset;
+  }
+
+  &[disabled] {
+    border: 2px solid var(--font-color-ghost);
+    box-shadow: unset;
+    color: var(--font-color-ghost);
+
+    &:hover {
+      transform: unset;
+      box-shadow: unset;
+    }
   }
 }
