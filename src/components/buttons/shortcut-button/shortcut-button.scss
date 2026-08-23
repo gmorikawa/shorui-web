@@ -1,0 +1,15 @@
+button {
+  padding: var(--spacing-xs);
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+
+  background-color: transparent;
+
+  border: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
