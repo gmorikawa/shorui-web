@@ -1,7 +1,5 @@
-<main-container>
-  <sh-stack>
-    @for (user of users(); track user.id) {
-    <sh-user-card [user]="user" />
-    }
-  </sh-stack>
-</main-container>
+<sh-stack>
+  @for (user of users(); track user.id) {
+  <sh-user-card [user]="user" />
+  }
+</sh-stack>

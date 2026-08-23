@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { FirstAccessPage } from '@app/auth/pages/first-access/first-access';
 import { LoginPage } from '@app/auth/pages/login/login';
-import { Menu } from '@app/menu/menu';
+import { MainLayout } from '@app/shared/main-layout/main-layout';
 import { UserListPage } from '@app/user/pages/list/list';
 
 export const routes: Routes = [
@@ -14,12 +14,14 @@ export const routes: Routes = [
     component: LoginPage,
   },
   {
-    path: 'menu',
-    component: Menu,
-  },
-  {
-    path: 'users',
-    component: UserListPage,
+    path: '',
+    component: MainLayout,
+    children: [
+      {
+        path: 'users',
+        component: UserListPage,
+      },
+    ]
   },
   {
     path: '**',
