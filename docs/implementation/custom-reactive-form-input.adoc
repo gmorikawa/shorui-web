@@ -1,0 +1,89 @@
+= Custom Reactive Form Input
+
+== Introduction
+
+I wanted to encapsulate the input element into a reusable component that can be used in reactive forms. I also wanted to keep a consistent design for all input elements in the application.
+
+== Problem
+
+The problem is that when I implemented this new component and tried to bind it to a reactive form, it could not receive the value from the input, even if I set the `formControlName` property.
+
+== Solution
+
+In order to make the component work with reactive forms, I had to implement the `ControlValueAccessor` interface. This interface allows Angular to communicate with the component and update its value when the form control changes.
+
+First, I had to implement the following methods:
+
+* `writeValue`: This method is called by Angular when the form control value changes. I used this method to update the component's value.
+* `registerOnChange`: This method is called by Angular when the form control value changes. I used this method to register a callback function that will be called when the component's value changes.
+* `registerOnTouched`: This method is called by Angular when the form control is touched. I used this method to register a callback function that will be called when the component is touched.
+* `setDisabledState`: This method is called by Angular when the form control is disabled. I used this method to update the component's disabled state.
+
+Then I implemented the `onChange` method that handle the input event and then call the registered callback functions from `registerOnChange` and `registerOnTouched` methods.
+
+Finally, I added the `NG_VALUE_ACCESSOR` provider to the component's metadata. This provider tells Angular that this component is a `ControlValueAccessor`.
+
+[source, typescript]
+----
+import { Component, computed, forwardRef, input, model, signal } from "@angular/core";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { BaseInputDirective } from "@directives/base-input/base-input";
+
+@Component({
+  selector: "sh-text-input",
+  imports: [
+    BaseInputDirective,
+  ],
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => TextInput),
+    multi: true,
+  }],
+  templateUrl: "./text-input.html",
+  styleUrls: ["./text-input.scss"],
+})
+export class TextInput implements ControlValueAccessor {
+  onChangeFn: any = () => {};
+  onTouchedFn: any = () => {};
+
+  value = model<string>("");
+  readonly property = input<string>("")
+  readonly label = input<string>("");
+  readonly placeholder = input<string>("");
+  readonly error = signal<boolean>(false);
+
+  readonly disabled = input<boolean>(false);
+  readonly formDisabled = signal<boolean>(false);
+  readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
+
+  writeValue(newValue: string | null): void {
+    this.value.set(newValue ?? "");
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChangeFn = fn;
+  }
+
+  registerOnTouched(handler: any): void {
+    this.onTouchedFn = handler;
+  }
+
+  setDisabledState(disabled: boolean): void {
+    this.formDisabled.set(disabled);
+  }
+
+  protected handleChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement
+    this.value.set(inputElement.value);
+
+    this.onChangeFn(inputElement.value);
+    this.onTouchedFn();
+
+    this.error.set(inputElement.value.trim() === '');
+  }
+}
+----
+
+== References
+
+* https://dev.to/pckalyan/build-custom-components-for-angular-reactive-forms-with-controlvalueaccessor-4b79[Build Custom Components for Angular Reactive Forms with ControlValueAccessor - DEV Community] by Kalyan P C, published on 2025-07-22, accessed on 2026-08-23.

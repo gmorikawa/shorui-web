@@ -1,0 +1,14 @@
+<label [for]="property()">
+  {{ label() }}
+</label>
+
+<input base-input
+  type="text"
+  [value]="value()"
+  [id]="property()"
+  [disabled]="isDisabled()"
+  [placeholder]="placeholder()"
+  (input)="handleChange($event)"
+  [class.error]="error()"
+  [class.success]="!error()"
+/>

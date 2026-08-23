@@ -1,0 +1,12 @@
+input[base-input] {
+  padding: var(--spacing-sm);
+
+  border: 2px solid var(--color-black);
+  box-shadow: 2px 2px 0 var(--color-black);
+
+  background-color: var(--color-white);
+
+  &:focus {
+    outline: 2px solid rgb(76 95 213 / 18%);
+  }
+}

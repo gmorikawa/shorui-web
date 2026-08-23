@@ -1,4 +1,5 @@
 @use "./directives/primary-button/primary-button";
+@use "./directives/base-input/base-input";
 
 *,
 *::before,
@@ -15,6 +16,7 @@ body {
 
 :root {
   --color-black: #111;
+  --color-white: #eee;
 
   --color-primary: #a6d075;
   --color-secondary: #e6ab75;

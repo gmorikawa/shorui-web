@@ -1,0 +1,12 @@
+:host {
+  width: 100%;
+
+  gap: var(--spacing-sm);
+
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: bold;
+}
