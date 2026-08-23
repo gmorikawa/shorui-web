@@ -2,8 +2,8 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Email, FullName, NewUser, UserRole } from '@features/user/types';
-import { PlainPassword } from '@features/auth/types';
+import { Email, FullName, NewUser, UserRole } from '@app/user/types/types';
+import { PlainPassword } from '@app/auth/types/models';
 import { BaseButtonDirective } from '@directives/base-button/base-button';
 import { PasswordInput } from '@components/form/password-input/password-input';
 import { TextInput } from '@components/form/text-input/text-input';

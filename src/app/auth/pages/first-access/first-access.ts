@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 
 import { AuthLayout } from '@app/auth/components/auth-layout/auth-layout';
 import { AuthService } from '@services/auth';
-import { Email, FullName, NewAdmin } from '@features/user/types';
-import { PlainPassword } from '@features/auth/types';
+import { Email, FullName, NewAdmin } from '@app/user/types/types';
+import { PlainPassword } from '@app/auth/types/models';
 import { BaseButtonDirective } from "@directives/base-button/base-button";
 import { PasswordInput } from '@components/form/password-input/password-input';
 import { TextInput } from '@components/form/text-input/text-input';

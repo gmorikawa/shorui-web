@@ -3,8 +3,8 @@ import { Router } from "@angular/router";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 
 import { AuthService } from "@services/auth";
-import { Credentials, PlainPassword } from "@features/auth/types";
-import { Email } from "@features/user/types";
+import { Credentials, PlainPassword } from "@app/auth/types/models";
+import { Email } from "@app/user/types/types";
 import { BaseButtonDirective } from "@directives/base-button/base-button";
 import { PasswordInput } from "@components/form/password-input/password-input";
 import { EmailInput } from "@components/form/email-input/email-input";

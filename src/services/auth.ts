@@ -3,10 +3,10 @@ import { Observable, tap } from "rxjs";
 import { inject, Service } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
-import { AuthToken, Credentials } from "@features/auth/types";
-import { NewAdmin, NewUser } from "@features/user/types";
+import { AuthToken, Credentials } from "@app/auth/types/models";
+import { NewAdmin, NewUser } from "@app/user/types/types";
 import { environment } from "@environments/environment";
-import { MissingAuthTokenException } from "@features/auth/exceptions";
+import { MissingAuthTokenException } from "@app/auth/types/exceptions";
 
 export interface LoginResponse {
   token: AuthToken;

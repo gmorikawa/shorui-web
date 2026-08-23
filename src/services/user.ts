@@ -1,7 +1,7 @@
 import { Observable } from "rxjs";
 import { inject, Service } from "@angular/core";
 
-import { NewUser, User } from "@features/user/types";
+import { NewUser, User } from "@app/user/types/types";
 import { APIService } from "@services/api";
 import { AuthService } from "@services/auth";
 

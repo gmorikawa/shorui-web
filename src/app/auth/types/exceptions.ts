@@ -1,4 +1,4 @@
-import { BusinessException } from "@features/shared/exceptions";
+import { BusinessException } from "@app/shared/types/exceptions";
 
 export class MissingAuthTokenException extends BusinessException {
   constructor() {

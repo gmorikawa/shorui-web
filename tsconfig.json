@@ -28,9 +28,6 @@
       "@environments/*": [
         "environments/*"
       ],
-      "@features/*": [
-        "features/*"
-      ],
       "@services/*": [
         "services/*"
       ]

@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { User } from '@features/user/types';
+import { User } from '@app/user/types/types';
 import { CardContainer } from '@components/containers/card-container/card-container';
 
 @Component({
