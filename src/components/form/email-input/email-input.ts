@@ -3,19 +3,19 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { BaseInputDirective } from "@directives/base-input/base-input";
 
 @Component({
-  selector: "sh-text-input",
+  selector: "sh-email-input",
   imports: [
     BaseInputDirective,
   ],
   providers: [{
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => TextInput),
+    useExisting: forwardRef(() => EmailInput),
     multi: true,
   }],
-  templateUrl: "./text-input.html",
-  styleUrls: ["./text-input.scss"],
+  templateUrl: "./email-input.html",
+  styleUrls: ["./email-input.scss"],
 })
-export class TextInput implements ControlValueAccessor {
+export class EmailInput implements ControlValueAccessor {
   onChangeFn: any = () => {};
   onTouchedFn: any = () => {};
 
