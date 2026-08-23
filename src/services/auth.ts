@@ -7,6 +7,7 @@ import { AuthToken, Credentials } from "@app/auth/types/models";
 import { NewAdmin, NewUser } from "@app/user/types/types";
 import { environment } from "@environments/environment";
 import { MissingAuthTokenException } from "@app/auth/types/exceptions";
+import { Router } from "@angular/router";
 
 export interface LoginResponse {
   token: AuthToken;
@@ -14,7 +15,7 @@ export interface LoginResponse {
 
 @Service()
 export class AuthService {
-  private readonly http: HttpClient = inject(HttpClient);
+  private readonly http = inject(HttpClient);
   private readonly apiUrl: string = environment.apiUrl;
 
   public firstAccess(admin: NewAdmin): Observable<void> {
@@ -55,5 +56,12 @@ export class AuthService {
       throw new MissingAuthTokenException();
     }
     return `Bearer ${localStorage.getItem("authToken")}`;
+  }
+
+  /**
+   * Logs out the current user by removing the auth token from local storage.
+   */
+  public logout(): void {
+    localStorage.removeItem("authToken");
   }
 }
