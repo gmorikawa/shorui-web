@@ -32,7 +32,11 @@ export class DocumentService extends APIService {
 
     return this.http.post<Document>(
       `${this.apiUrl}/documents`,
-      newDocument,
+      {
+        title: newDocument.title,
+        type_id: newDocument.type.id,
+        file_id: newDocument.file.id,
+      },
       { headers }
     );
   }

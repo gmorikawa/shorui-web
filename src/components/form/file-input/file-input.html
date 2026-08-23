@@ -1,0 +1,16 @@
+<label [for]="property()">
+  {{ label() }}
+</label>
+
+<input base-input
+  #input
+  type="file"
+  [id]="property()"
+  [disabled]="isDisabled()"
+  [accept]="accept()"
+  [multiple]="multiple()"
+  [placeholder]="placeholder()"
+  (change)="handleChange($event)"
+  [class.error]="error()"
+  [class.success]="!error()"
+/>
