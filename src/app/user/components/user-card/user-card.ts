@@ -1,11 +1,11 @@
 import { Component, input } from '@angular/core';
 import { User } from '@features/user/types';
-import { Card } from '@components/card/card';
+import { CardContainer } from '@components/containers/card-container/card-container';
 
 @Component({
   selector: 'sh-user-card',
   imports: [
-    Card,
+    CardContainer,
   ],
   templateUrl: './user-card.html',
   styleUrl: './user-card.scss',

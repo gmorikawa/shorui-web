@@ -1,11 +1,11 @@
 import { Component, input } from '@angular/core';
-import { Card } from '@components/card/card';
+import { CardContainer } from '@components/containers/card-container/card-container';
 import { MainContainer } from '@components/containers/main-container/main-container';
 
 @Component({
   selector: 'auth-layout',
   imports: [
-    Card,
+    CardContainer,
     MainContainer,
   ],
   templateUrl: './auth-layout.html',
