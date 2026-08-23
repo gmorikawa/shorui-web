@@ -26,6 +26,13 @@
       formControlName="file"
     />
 
+    @if (documentForm.get('file')?.value) {
+      <document-viewer
+        [binary]="documentForm.get('file')?.value ?? null"
+        type="image"
+      />
+    }
+
     <button base-button type="submit" [disabled]="documentForm.invalid">
       Register
     </button>

@@ -13,6 +13,7 @@ import { SelectInput } from '@components/form/select-input/select-input';
 import { FileService } from '@services/file';
 import { Binary } from '@app/file/types/override';
 import { FileInput } from '@components/form/file-input/file-input';
+import { DocumentViewer } from '@app/document/components/document-viewer/document-viewer';
 
 @Component({
   selector: 'sh-document-form-page',
@@ -23,6 +24,7 @@ import { FileInput } from '@components/form/file-input/file-input';
     ReactiveFormsModule,
     SelectInput,
     FileInput,
+    DocumentViewer,
   ],
   templateUrl: './form.html',
   styleUrl: './form.scss',
