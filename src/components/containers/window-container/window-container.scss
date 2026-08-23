@@ -1,0 +1,18 @@
+:host {
+  padding: var(--spacing-md);
+  display: block;
+}
+
+card-container {
+  padding: 0;
+}
+
+header {
+  padding: var(--spacing-sm);
+  font-weight: bold;
+  border-bottom: 2px solid var(--color-black);
+}
+
+main {
+  padding: var(--spacing-md);
+}
