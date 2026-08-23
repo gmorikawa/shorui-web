@@ -1,0 +1,26 @@
+<card-container>
+  <h1>Register Document</h1>
+
+  <form [formGroup]="documentForm" (ngSubmit)="submit()">
+    <sh-text-input
+      property="title"
+      label="Title"
+      placeholder="Enter title"
+      formControlName="title"
+    />
+
+    <sh-select-input
+      property="type"
+      label="Document Type"
+      placeholder="Select document type"
+      [options]="documentTypes()"
+      [optionLabel]="getLabel"
+      [optionValue]="getValue"
+      formControlName="type"
+    />
+
+    <button base-button type="submit" [disabled]="documentForm.invalid">
+      Register
+    </button>
+  </form>
+</card-container>

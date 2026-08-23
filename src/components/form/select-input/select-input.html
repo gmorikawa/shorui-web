@@ -1,0 +1,22 @@
+<label [for]="property()">
+  {{ label() }}
+</label>
+
+<select base-input
+  [id]="property()"
+  [disabled]="isDisabled()"
+  [value]="value()"
+  (change)="handleChange($event)"
+  [class.error]="error()"
+  [class.success]="!error()"
+>
+  @if (placeholder()) {
+  <option value="" disabled selected>{{ placeholder() }}</option>
+  }
+
+  @for (option of options(); track optionValue()(option)) {
+  <option [value]="optionValue()(option)">
+    {{ optionLabel()(option) }}
+  </option>
+  }
+</select>

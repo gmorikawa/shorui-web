@@ -1,6 +1,10 @@
 import { Routes } from '@angular/router';
 import { FirstAccessPage } from '@app/auth/pages/first-access/first-access';
 import { LoginPage } from '@app/auth/pages/login/login';
+import { DocumentFormPage } from '@app/document/pages/form/form';
+import { DocumentListPage } from '@app/document/pages/list/list';
+import { DocumentTypeFormPage } from '@app/document-type/pages/form/form';
+import { DocumentTypeListPage } from '@app/document-type/pages/list/list';
 import { MainLayout } from '@app/shared/components/main-layout/main-layout';
 import { UserFormPage } from '@app/user/pages/form/form';
 import { UserListPage } from '@app/user/pages/list/list';
@@ -25,6 +29,22 @@ export const routes: Routes = [
       {
         path: 'users/register',
         component: UserFormPage,
+      },
+      {
+        path: 'documents',
+        component: DocumentListPage,
+      },
+      {
+        path: 'documents/register',
+        component: DocumentFormPage,
+      },
+      {
+        path: 'types',
+        component: DocumentTypeListPage,
+      },
+      {
+        path: 'types/register',
+        component: DocumentTypeFormPage,
       },
     ]
   },

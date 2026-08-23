@@ -1,0 +1,11 @@
+<sh-stack>
+  <div>
+    <button base-button type="button" (click)="navigateToForm()">
+      Create
+    </button>
+  </div>
+
+  @for (documentType of documentTypes(); track documentType.id) {
+  <sh-document-type-card [documentType]="documentType" />
+  }
+</sh-stack>

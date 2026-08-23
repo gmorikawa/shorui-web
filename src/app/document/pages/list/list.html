@@ -1,0 +1,11 @@
+<sh-stack>
+  <div>
+    <button base-button type="button" (click)="navigateToForm()">
+      Create
+    </button>
+  </div>
+
+  @for (document of documents(); track document.id) {
+  <sh-document-card [document]="document" />
+  }
+</sh-stack>

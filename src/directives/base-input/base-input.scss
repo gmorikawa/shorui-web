@@ -1,4 +1,5 @@
-input[base-input] {
+input[base-input],
+select[base-input] {
   padding: var(--spacing-sm);
 
   border: 2px solid var(--color-black);
