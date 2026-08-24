@@ -1,0 +1,30 @@
+<card-container>
+  <h1>Register Attribute</h1>
+
+  <form [formGroup]="attributeForm" (ngSubmit)="submit()">
+    <sh-text-input
+      property="key"
+      label="Key"
+      placeholder="Enter key"
+      formControlName="key"
+    />
+
+    <sh-text-input
+      property="label"
+      label="Label"
+      placeholder="Enter label"
+      formControlName="label"
+    />
+
+    <sh-text-input
+      property="description"
+      label="Description"
+      placeholder="Enter description"
+      formControlName="description"
+    />
+
+    <button base-button type="submit" [disabled]="attributeForm.invalid">
+      Register
+    </button>
+  </form>
+</card-container>
