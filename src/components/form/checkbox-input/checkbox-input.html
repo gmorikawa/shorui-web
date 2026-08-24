@@ -1,0 +1,21 @@
+<label>
+  {{ label() }}
+</label>
+
+@for (option of options(); track getKey()(option)) {
+<div class="option">
+  <input base-input
+    type="checkbox"
+    [checked]="isChecked(option)"
+    [id]="property() + '-' + getKey()(option)"
+    [disabled]="isDisabled()"
+    (input)="handleChange(option, $event)"
+    [class.error]="error()"
+    [class.success]="!error()"
+  />
+
+  <label [for]="property() + '-' + getKey()(option)">
+    {{ getLabel()(option) }}
+  </label>
+</div>
+}

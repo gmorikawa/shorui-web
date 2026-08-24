@@ -1,0 +1,15 @@
+:host {
+  width: 100%;
+
+  gap: var(--spacing-sm);
+
+  display: flex;
+  flex-direction: column;
+}
+
+.option {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
