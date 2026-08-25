@@ -2,8 +2,7 @@ import { Observable } from "rxjs";
 import { inject, Service } from "@angular/core";
 
 import { NewDocumentType, DocumentType } from "@app/document-type/types/models";
-import { APIService } from "@services/api";
-import { AuthService } from "@services/auth";
+import { APIService, AuthService } from "@services";
 
 @Service()
 export class DocumentTypeService extends APIService {

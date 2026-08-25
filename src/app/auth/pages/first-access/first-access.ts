@@ -3,7 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 
 import { AuthLayout } from '@app/auth/components/auth-layout/auth-layout';
-import { AuthService } from '@services/auth';
+import { AuthService } from '@services';
 import { Email, FullName, NewAdmin } from '@app/user/types/types';
 import { PlainPassword } from '@app/auth/types/models';
 import { BaseButtonDirective } from "@directives/base-button/base-button";

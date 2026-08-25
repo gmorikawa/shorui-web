@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AttributeService } from '@services/attribute';
+import { AttributeService } from '@services';
 import { Attribute } from '@app/attribute/types/models';
 import { AttributeCard } from '@app/attribute/components/attribute-card/attribute-card';
 import { Stack } from '@components/stack/stack';

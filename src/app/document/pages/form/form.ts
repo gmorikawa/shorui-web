@@ -7,8 +7,7 @@ import type { DocumentType, DocumentTypeID } from '@app/document-type/types/mode
 import { DocumentAttributes, NewDocument, Title } from '@app/document/types/models';
 import { Binary } from '@app/file/types/override';
 import { DocumentViewer } from '@app/document/components/document-viewer/document-viewer';
-import { DocumentService } from '@services/document';
-import { FileService } from '@services/file';
+import { DocumentService, FileService } from '@services';
 import { BaseButtonDirective } from '@directives/base-button/base-button';
 import { TextInput } from '@components/form/text-input/text-input';
 import { CardContainer } from '@components/containers/card-container/card-container';

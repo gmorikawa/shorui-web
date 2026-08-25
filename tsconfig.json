@@ -28,9 +28,9 @@
       "@environments/*": [
         "environments/*"
       ],
-      "@services/*": [
-        "services/*"
-      ]
+      "@services": [
+        "services/index.ts"
+      ],
     }
   },
   "angularCompilerOptions": {

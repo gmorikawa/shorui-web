@@ -3,13 +3,12 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { DocumentTypeService } from '@services/document-type';
+import { AttributeService, DocumentTypeService } from '@services';
 import { NewDocumentType, Text, UniqueName } from '@app/document-type/types/models';
 import { BaseButtonDirective } from '@directives/base-button/base-button';
 import { TextInput } from '@components/form/text-input/text-input';
 import { CheckboxInput } from '@components/form/checkbox-input/checkbox-input';
 import { CardContainer } from '@components/containers/card-container/card-container';
-import { AttributeService } from '@services/attribute';
 import { Attribute } from '@app/attribute/types/models';
 
 @Component({

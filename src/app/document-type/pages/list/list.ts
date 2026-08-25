@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { DocumentTypeService } from '@services/document-type';
+import { DocumentTypeService } from '@services';
 import { DocumentType } from '@app/document-type/types/models';
 import { DocumentTypeCard } from '@app/document-type/components/document-type-card/document-type-card';
 import { Stack } from '@components/stack/stack';

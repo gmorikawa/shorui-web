@@ -9,7 +9,7 @@ import { PasswordInput } from '@components/form/password-input/password-input';
 import { TextInput } from '@components/form/text-input/text-input';
 import { EmailInput } from '@components/form/email-input/email-input';
 import { CardContainer } from '@components/containers/card-container/card-container';
-import { UserService } from '@services/user';
+import { UserService } from '@services';
 
 @Component({
   selector: 'sh-user-form-page',

@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AttributeService } from '@services/attribute';
+import { AttributeService } from '@services';
 import { AttributeKey, Label, NewAttribute } from '@app/attribute/types/models';
 import { BaseButtonDirective } from '@directives/base-button/base-button';
 import { TextInput } from '@components/form/text-input/text-input';

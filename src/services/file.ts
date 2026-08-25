@@ -1,8 +1,7 @@
 import { Observable } from "rxjs";
 import { inject, Service } from "@angular/core";
 
-import { APIService } from "@services/api";
-import { AuthService } from "@services/auth";
+import { APIService, AuthService } from "@services";
 import { Binary } from "@app/file/types/override";
 import { File, FileID } from "@app/file/types/models";
 

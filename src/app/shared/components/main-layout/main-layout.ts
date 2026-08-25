@@ -3,7 +3,7 @@ import { Router, RouterOutlet } from '@angular/router';
 
 import { ShortcutButton } from '@components/buttons/shortcut-button/shortcut-button';
 import { MainContainer } from '@components/containers/main-container/main-container';
-import { AuthService } from '@services/auth';
+import { AuthService } from '@services';
 
 @Component({
   selector: 'main-layout',

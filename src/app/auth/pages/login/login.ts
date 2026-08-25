@@ -2,7 +2,7 @@ import { Component, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 
-import { AuthService } from "@services/auth";
+import { AuthService } from "@services";
 import { Credentials, PlainPassword } from "@app/auth/types/models";
 import { Email } from "@app/user/types/types";
 import { BaseButtonDirective } from "@directives/base-button/base-button";

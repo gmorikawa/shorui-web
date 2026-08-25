@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { UserService } from '@services/user';
+import { UserService } from '@services';
 import { User } from '@app/user/types/types';
 import { UserCard } from '@app/user/components/user-card/user-card';
 import { Stack } from '@components/stack/stack';
