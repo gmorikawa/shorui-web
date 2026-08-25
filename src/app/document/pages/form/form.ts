@@ -1,19 +1,20 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import type { DocumentType, DocumentTypeID } from '@app/document-type/types/models';
+import { FormControl, FormGroup, FormRecord, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import type { Attribute } from '@app/attribute/types/models';
+import type { DocumentType, DocumentTypeID } from '@app/document-type/types/models';
+import { DocumentAttributes, NewDocument, Title } from '@app/document/types/models';
+import { Binary } from '@app/file/types/override';
+import { DocumentViewer } from '@app/document/components/document-viewer/document-viewer';
 import { DocumentService } from '@services/document';
-import { NewDocument, Title } from '@app/document/types/models';
+import { FileService } from '@services/file';
 import { BaseButtonDirective } from '@directives/base-button/base-button';
 import { TextInput } from '@components/form/text-input/text-input';
 import { CardContainer } from '@components/containers/card-container/card-container';
 import { DocumentTypeService } from '@services/document-type';
 import { SelectInput } from '@components/form/select-input/select-input';
-import { FileService } from '@services/file';
-import { Binary } from '@app/file/types/override';
 import { FileInput } from '@components/form/file-input/file-input';
-import { DocumentViewer } from '@app/document/components/document-viewer/document-viewer';
 
 @Component({
   selector: 'sh-document-form-page',
@@ -36,6 +37,7 @@ export class DocumentFormPage implements OnInit {
   private readonly fileService = inject(FileService);
 
   protected documentTypes = signal<DocumentType[]>([]);
+  protected selectedAttributes = signal<Attribute[]>([]);
 
   protected readonly getLabel = (type: DocumentType): string => type.name;
   protected readonly getValue = (type: DocumentType): string => type.id;
@@ -56,6 +58,7 @@ export class DocumentFormPage implements OnInit {
       nonNullable: true,
       validators: [Validators.required],
     }),
+    attributes: new FormRecord<FormControl<string>>({}),
   });
 
   public ngOnInit(): void {
@@ -64,6 +67,26 @@ export class DocumentFormPage implements OnInit {
       .subscribe((documentTypes) => {
         this.documentTypes.set(documentTypes);
       });
+
+    this.documentForm.controls.type.valueChanges.subscribe((typeId) => {
+      const documentType = this.documentTypes().find((type) => type.id === typeId);
+      this.updateAttributeControls(documentType);
+    });
+  }
+
+  private updateAttributeControls(documentType: DocumentType | undefined): void {
+    const attributesGroup = this.documentForm.controls.attributes;
+
+    Object
+      .keys(attributesGroup.controls)
+      .forEach((key) => attributesGroup.removeControl(key));
+
+    const attributes = documentType?.attributes ?? [];
+    attributes.forEach((attribute) => {
+      attributesGroup.addControl(attribute.key, new FormControl('', { nonNullable: true }));
+    });
+
+    this.selectedAttributes.set(attributes);
   }
 
   protected submit(): void {
@@ -79,11 +102,14 @@ export class DocumentFormPage implements OnInit {
       .subscribe({
         next: (file) => {
           console.log('File uploaded successfully:', file);
-  
+
+          const attributes = this.documentForm.get('attributes')?.value as DocumentAttributes;
+
           const newDocument: NewDocument = {
             title: this.documentForm.get('title')?.value as Title,
             type: this.getDocumentTypeById(this.documentForm.get('type')?.value as DocumentTypeID),
             file: file,
+            ...(Object.keys(attributes).length > 0 ? { attributes } : {}),
           };
 
           this.document

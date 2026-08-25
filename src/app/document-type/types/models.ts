@@ -1,3 +1,5 @@
+import { Attribute } from "@app/attribute/types/models";
+
 export type DocumentTypeID = string;
 export type UniqueName = string;
 export type Text = string;
@@ -8,4 +10,5 @@ export interface DocumentType {
   id: DocumentTypeID;
   name: UniqueName;
   description: Text;
+  attributes: Attribute[];
 }

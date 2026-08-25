@@ -16,6 +16,15 @@
       formControlName="description"
     />
 
+    <sh-checkbox-input
+      property="attributes"
+      label="Attributes"
+      [options]="($attributes | async) ?? []"
+      [getKey]="getAttributeKey"
+      [getLabel]="getAttributeLabel"
+      formControlName="attributes"
+    />
+
     <button base-button type="submit" [disabled]="documentTypeForm.invalid">
       Register
     </button>

@@ -36,6 +36,7 @@ export class DocumentService extends APIService {
         title: newDocument.title,
         type_id: newDocument.type.id,
         file_id: newDocument.file.id,
+        attributes: newDocument.attributes,
       },
       { headers }
     );

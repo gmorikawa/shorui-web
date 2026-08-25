@@ -19,6 +19,25 @@
       formControlName="type"
     />
 
+    @if (selectedAttributes().length > 0) {
+      <!--
+        Dynamically generate form controls for each selected attribute.
+        The formGroupName directive is used to bind the nested form group for attributes.
+        The usage of ng-container creates a logical container that doesn't render any additional DOM elements,
+        allowing for cleaner HTML structure.
+        -->
+      <ng-container formGroupName="attributes">
+        @for (attribute of selectedAttributes(); track attribute.key) {
+          <sh-text-input
+            [property]="attribute.key"
+            [label]="attribute.label"
+            [placeholder]="'Enter ' + attribute.label"
+            [formControlName]="attribute.key"
+          />
+        }
+      </ng-container>
+    }
+
     <sh-file-input
       property="file"
       label="File"
