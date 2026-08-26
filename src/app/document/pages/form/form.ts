@@ -4,14 +4,14 @@ import { Router } from '@angular/router';
 
 import type { Attribute } from '@app/attribute/types/models';
 import type { DocumentType, DocumentTypeID } from '@app/document-type/types/models';
-import { DocumentAttributes, NewDocument, Title } from '@app/document/types/models';
+import { DocumentAttributes, NewDocument, Text, Title } from '@app/document/types/models';
 import { Binary } from '@app/file/types/override';
 import { DocumentViewer } from '@app/document/components/document-viewer/document-viewer';
 import { DocumentService, FileService } from '@services';
 import { BaseButtonDirective } from '@directives/base-button/base-button';
 import { TextInput } from '@components/form/text-input/text-input';
 import { CardContainer } from '@components/containers/card-container/card-container';
-import { DocumentTypeService } from '@services/document-type';
+import { DocumentTypeService } from '@services';
 import { SelectInput } from '@components/form/select-input/select-input';
 import { FileInput } from '@components/form/file-input/file-input';
 
@@ -48,6 +48,9 @@ export class DocumentFormPage implements OnInit {
     title: new FormControl<Title>('', {
       nonNullable: true,
       validators: [Validators.required],
+    }),
+    description: new FormControl<Text>('', {
+      nonNullable: false,
     }),
     type: new FormControl<DocumentTypeID>('', {
       nonNullable: true,
@@ -106,6 +109,7 @@ export class DocumentFormPage implements OnInit {
 
           const newDocument: NewDocument = {
             title: this.documentForm.get('title')?.value as Title,
+            description: this.documentForm.get('description')?.value as Text,
             type: this.getDocumentTypeById(this.documentForm.get('type')?.value as DocumentTypeID),
             file: file,
             ...(Object.keys(attributes).length > 0 ? { attributes } : {}),

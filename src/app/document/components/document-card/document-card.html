@@ -1,9 +1,9 @@
 <card-container>
   <header>
-    <div>
-      <p class="title">
-        {{ document()?.title }}
-      </p>
-    </div>
+    <header>
+      <span class="card-eyebrow">{{ document()?.type?.name }}</span>
+      <h1 class="card-title">{{ document()?.title }}</h1>
+      <p class="card-description">{{ document()?.description }}</p>
+    </header>
   </header>
 </card-container>

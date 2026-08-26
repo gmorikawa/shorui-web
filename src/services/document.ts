@@ -33,6 +33,7 @@ export class DocumentService extends APIService {
       `${this.apiUrl}/documents`,
       {
         title: newDocument.title,
+        description: newDocument.description,
         type_id: newDocument.type.id,
         file_id: newDocument.file.id,
         attributes: newDocument.attributes,
