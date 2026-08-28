@@ -3,6 +3,7 @@ import { inject, Service } from "@angular/core";
 
 import { NewDocument, Document } from "@app/document/types/models";
 import { APIService, AuthService } from "@services";
+import { Folder } from "@app/folder/types/model";
 
 @Service()
 export class DocumentService extends APIService {
@@ -13,13 +14,13 @@ export class DocumentService extends APIService {
    * 
    * @returns An Observable of an array of Document objects.
    */
-  public getAll(): Observable<Document[]> {
+  public getByFolder(folder: Folder): Observable<Document[]> {
     const headers = {
       Authorization: this.auth.getBearerToken(),
     };
 
     return this.http.get<Document[]>(
-      `${this.apiUrl}/documents`,
+      `${this.apiUrl}/documents/folder/${folder.id}`,
       { headers }
     );
   }

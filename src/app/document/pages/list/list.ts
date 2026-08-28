@@ -1,7 +1,9 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 
-import { DocumentService } from '@services';
+import { AuthService, DocumentService, FolderService, UserService } from '@services';
+import { Folder } from '@app/folder/types/model';
 import { Document } from '@app/document/types/models';
 import { DocumentCard } from '@app/document/components/document-card/document-card';
 import { Stack } from '@components/stack/stack';
@@ -19,15 +21,35 @@ import { BaseButtonDirective } from '@directives/base-button/base-button';
 })
 export class DocumentListPage implements OnInit {
   private readonly document = inject(DocumentService);
+  private readonly folder = inject(FolderService);
+  private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
 
+  protected folders = signal<Folder[]>([]);
   protected documents = signal<Document[]>([]);
+  protected currentFolder = signal<Folder | null>(null);
 
   public ngOnInit(): void {
-    this.document
-      .getAll()
-      .subscribe(documents => {
-        this.documents.set(documents);
+    this.auth.getLoggedUser()
+      .subscribe(user => {
+        console.log('Logged user:', user);
+        this.loadFolder(user.folder);
+      });
+  }
+
+  protected openFolder(folder: Folder): void {
+    this.loadFolder(folder);
+  }
+
+  private loadFolder(folder: Folder): void {
+    this.currentFolder.set(folder);
+
+    forkJoin({
+      folders: this.folder.getByParent(folder),
+      documents: this.document.getByFolder(folder),
+    }).subscribe(({ folders, documents }) => {
+      this.folders.set(folders);
+      this.documents.set(documents);
       });
   }
 

@@ -4,10 +4,9 @@ import { inject, Service } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
 import { AuthToken, Credentials } from "@app/auth/types/models";
-import { NewAdmin, NewUser } from "@app/user/types/types";
+import { NewAdmin, NewUser, User } from "@app/user/types/types";
 import { environment } from "@environments/environment";
 import { MissingAuthTokenException } from "@app/auth/types/exceptions";
-import { Router } from "@angular/router";
 
 export interface LoginResponse {
   token: AuthToken;
@@ -40,6 +39,35 @@ export class AuthService {
       .pipe(
         tap(response => {
           localStorage.setItem("authToken", response.token);
+        })
+      );
+  }
+
+  /**
+   * Fetches the currently logged-in user's information.
+   *
+   * @returns An Observable of the User object representing the logged-in user.
+   */
+  public getLoggedUser(): Observable<User> {
+    const storageKey = "loggedUser"; 
+
+    const cachedUser = JSON.parse(localStorage.getItem(storageKey) || "null");
+    if (cachedUser) {
+      return new Observable<User>(subscriber => {
+        subscriber.next(cachedUser);
+        subscriber.complete();
+      });
+    }
+
+    const headers = {
+      Authorization: this.getBearerToken(),
+    };
+
+    return this.http
+      .get<User>(`${this.apiUrl}/auth/me`, { headers })
+      .pipe(
+        tap(user => {
+          localStorage.setItem(storageKey, JSON.stringify(user));
         })
       );
   }
