@@ -1,0 +1,15 @@
+card-container {
+  background-color: var(--color-secondary);
+}
+
+header {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+
+  .icon {
+    width: 48px;
+    height: 48px;
+    flex-basis: 0;
+  }
+}

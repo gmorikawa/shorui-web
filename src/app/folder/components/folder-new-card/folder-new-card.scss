@@ -1,0 +1,15 @@
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-sm);
+
+  sh-text-input {
+    flex: 1;
+  }
+
+  button {
+    padding: var(--spacing-sm);
+    flex-basis: auto;
+  }
+}

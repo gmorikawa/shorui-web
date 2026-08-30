@@ -1,0 +1,18 @@
+header {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+
+  .icon {
+    width: 48px;
+    height: 48px;
+    flex-basis: 0;
+  }
+
+  .card-title {
+    font-size: var(--font-size-md);
+    font-weight: 700;
+    color: var(--color-black);
+    margin-top: 0.5rem;
+  }
+}

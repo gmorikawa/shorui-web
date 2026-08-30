@@ -1,0 +1,14 @@
+<folder-card-base>
+  <form [formGroup]="folderForm" (ngSubmit)="submit()">
+    <sh-text-input
+      formControlName="name"
+      placeholder="Enter folder name"
+      [autofocus]="true"
+      (blur)="submit()"
+    />
+
+    <button base-button type="submit">
+      Create
+    </button>
+  </form>
+</folder-card-base>

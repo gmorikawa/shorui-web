@@ -14,6 +14,9 @@ export interface LoginResponse {
 
 @Service()
 export class AuthService {
+  private readonly storageKey = "loggedUser";
+  private readonly authTokenKey = "authToken";
+
   private readonly http = inject(HttpClient);
   private readonly apiUrl: string = environment.apiUrl;
 
@@ -38,7 +41,7 @@ export class AuthService {
       .post<LoginResponse>(`${this.apiUrl}/auth/login`, credentials)
       .pipe(
         tap(response => {
-          localStorage.setItem("authToken", response.token);
+          localStorage.setItem(this.authTokenKey, response.token);
         })
       );
   }
@@ -49,9 +52,7 @@ export class AuthService {
    * @returns An Observable of the User object representing the logged-in user.
    */
   public getLoggedUser(): Observable<User> {
-    const storageKey = "loggedUser"; 
-
-    const cachedUser = JSON.parse(localStorage.getItem(storageKey) || "null");
+    const cachedUser = JSON.parse(localStorage.getItem(this.storageKey) || "null");
     if (cachedUser) {
       return new Observable<User>(subscriber => {
         subscriber.next(cachedUser);
@@ -67,7 +68,7 @@ export class AuthService {
       .get<User>(`${this.apiUrl}/auth/me`, { headers })
       .pipe(
         tap(user => {
-          localStorage.setItem(storageKey, JSON.stringify(user));
+          localStorage.setItem(this.storageKey, JSON.stringify(user));
         })
       );
   }
@@ -79,17 +80,18 @@ export class AuthService {
    * @returns The Bearer token string.
    */
   public getBearerToken(): string {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem(this.authTokenKey);
     if (!token) {
       throw new MissingAuthTokenException();
     }
-    return `Bearer ${localStorage.getItem("authToken")}`;
+    return `Bearer ${token}`;
   }
 
   /**
    * Logs out the current user by removing the auth token from local storage.
    */
   public logout(): void {
-    localStorage.removeItem("authToken");
+    localStorage.removeItem(this.authTokenKey);
+    localStorage.removeItem(this.storageKey);
   }
 }

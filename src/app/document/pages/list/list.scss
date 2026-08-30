@@ -1,3 +1,8 @@
 th {
   text-align: left;
 }
+
+.button-group {
+  display: flex;
+  gap: var(--spacing-sm);
+}

@@ -1,14 +1,24 @@
 <sh-stack>
-  <div>
+  <div class="button-group">
     <button base-button type="button" (click)="navigateToForm()">
-      Create
+      Create Document
+    </button>
+
+    <button base-button type="button" (click)="addNewFolder()">
+      Create Folder
     </button>
   </div>
 
   @for (folder of folders(); track folder.id) {
-  <button base-button type="button" (click)="openFolder(folder)">
-    {{ folder.name }}
-  </button>
+  <folder-card [folder]="folder" />
+  }
+
+  @if (temporaryNewFolder()) {
+  <folder-new-card
+    [folder]="temporaryNewFolder()!"
+    [create]="saveNewFolder"
+    [cancel]="cancelNewFolder"
+  />
   }
 
   @for (document of documents(); track document.id) {

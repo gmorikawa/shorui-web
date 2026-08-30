@@ -23,4 +23,16 @@ export class FolderService extends APIService {
       { headers }
     );
   }
+
+  public create(name: string, parent: Folder): Observable<Folder> {
+    const headers = {
+      Authorization: this.auth.getBearerToken(),
+    };
+
+    return this.http.post<Folder>(
+      `${this.apiUrl}/folders`,
+      { name, parent_id: parent?.id ?? null },
+      { headers }
+    );
+  }
 }
