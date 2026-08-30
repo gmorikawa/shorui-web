@@ -103,8 +103,6 @@ export class DocumentFormPage implements OnInit {
       .upload(binary)
       .subscribe({
         next: (file) => {
-          console.log('File uploaded successfully:', file);
-
           const attributes = this.documentForm.get('attributes')?.value as DocumentAttributes;
 
           const newDocument: NewDocument = {

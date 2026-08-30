@@ -32,7 +32,6 @@ export class DocumentListPage implements OnInit {
   public ngOnInit(): void {
     this.auth.getLoggedUser()
       .subscribe(user => {
-        console.log('Logged user:', user);
         this.loadFolder(user.folder);
       });
   }

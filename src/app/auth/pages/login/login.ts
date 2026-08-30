@@ -41,7 +41,6 @@ export class LoginPage {
   });
 
   protected submit(): void {
-    console.log('Form submitted with values:', this.loginForm.value);
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
