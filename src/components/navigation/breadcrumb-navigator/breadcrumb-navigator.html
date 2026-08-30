@@ -1,0 +1,25 @@
+<nav aria-label="Breadcrumb">
+  <ol>
+    @for (item of items(); track item.url ?? item.label; let isLast = $last) {
+    <li>
+      @if (item.onClick) {
+      <button
+        type="button"
+        (click)="item.onClick()"
+        [attr.aria-current]="isLast ? 'page' : null"
+      >
+        {{ item.label }}
+      </button>
+      } @else if (item.url) {
+      <a [href]="item.url">{{ item.label }}</a>
+      } @else {
+      <span [attr.aria-current]="isLast ? 'page' : null">{{ item.label }}</span>
+      }
+
+      @if (!isLast) {
+      <span class="separator" aria-hidden="true">/</span>
+      }
+    </li>
+    }
+  </ol>
+</nav>
