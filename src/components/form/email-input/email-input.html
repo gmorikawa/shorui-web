@@ -11,6 +11,8 @@
   [disabled]="isDisabled()"
   [placeholder]="placeholder()"
   (input)="handleChange($event)"
+  (blur)="blur.emit($event)"
+  (focus)="focus.emit($event)"
   [class.error]="error()"
   [class.success]="!error()"
 />

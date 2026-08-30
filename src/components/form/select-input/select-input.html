@@ -9,6 +9,8 @@
   [disabled]="isDisabled()"
   [value]="value()"
   (change)="handleChange($event)"
+  (blur)="blur.emit($event)"
+  (focus)="focus.emit($event)"
   [class.error]="error()"
   [class.success]="!error()"
 >

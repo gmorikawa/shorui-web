@@ -1,6 +1,8 @@
-import { Component, computed, forwardRef, input, model, signal } from "@angular/core";
+import { Component, computed, forwardRef, input, model, output, signal } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { BaseInputDirective } from "@directives/base-input/base-input";
+
+type FocusEventListener = (event: FocusEvent) => void;
 
 @Component({
   selector: "sh-text-input",
@@ -24,10 +26,14 @@ export class TextInput implements ControlValueAccessor {
   readonly label = input<string>("");
   readonly placeholder = input<string>("");
   readonly error = signal<boolean>(false);
+  readonly autofocus = input<boolean>(false);
 
   readonly disabled = input<boolean>(false);
   readonly formDisabled = signal<boolean>(false);
   readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
+
+  readonly blur = output<FocusEvent>();
+  readonly focus = output<FocusEvent>();
 
   writeValue(newValue: string | null): void {
     this.value.set(newValue ?? "");

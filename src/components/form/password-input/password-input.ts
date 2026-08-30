@@ -1,4 +1,4 @@
-import { Component, computed, forwardRef, input, model, signal } from "@angular/core";
+import { Component, computed, forwardRef, input, model, output, signal } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { BaseInputDirective } from "@directives/base-input/base-input";
 
@@ -28,6 +28,9 @@ export class PasswordInput implements ControlValueAccessor {
   readonly disabled = input<boolean>(false);
   readonly formDisabled = signal<boolean>(false);
   readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
+
+  readonly blur = output<FocusEvent>();
+  readonly focus = output<FocusEvent>();
 
   writeValue(value: string | null): void {
     this.value.apply(value ?? '');

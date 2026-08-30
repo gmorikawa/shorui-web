@@ -10,7 +10,10 @@
   [id]="property()"
   [disabled]="isDisabled()"
   [placeholder]="placeholder()"
+  [autofocus]="autofocus()"
   (input)="handleChange($event)"
+  (blur)="blur.emit($event)"
+  (focus)="focus.emit($event)"
   [class.error]="error()"
   [class.success]="!error()"
 />
