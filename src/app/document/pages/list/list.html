@@ -7,10 +7,21 @@
     <button base-button type="button" (click)="addNewFolder()">
       Create Folder
     </button>
+
+    @if (folderStack.length() > 1) {
+    <button base-button type="button" (click)="navigateBack()">
+      Back
+    </button>
+    }
   </div>
 
+  <breadcrumb-navigator [items]="breadcrumbItems()"></breadcrumb-navigator>
+
   @for (folder of folders(); track folder.id) {
-  <folder-card [folder]="folder" />
+  <folder-card
+    [folder]="folder"
+    (open)="navigateToFolder(folder)"
+  />
   }
 
   @if (temporaryNewFolder()) {

@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 import { FolderCardBase } from '../folder-card-base/folder-card-base';
 
@@ -14,4 +14,6 @@ import { Folder } from '@app/folder/types/model';
 })
 export class FolderCard {
   readonly folder = input.required<Folder>();
+
+  readonly open = output<MouseEvent>();
 }

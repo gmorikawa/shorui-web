@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { CardContainer } from '@components/containers/card-container/card-container';
 
 @Component({
@@ -9,4 +9,6 @@ import { CardContainer } from '@components/containers/card-container/card-contai
   templateUrl: './folder-card-base.html',
   styleUrl: './folder-card-base.scss',
 })
-export class FolderCardBase { }
+export class FolderCardBase {
+  readonly open = output<MouseEvent>();
+}
