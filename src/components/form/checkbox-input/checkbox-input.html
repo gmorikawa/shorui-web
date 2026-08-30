@@ -1,6 +1,8 @@
-<label>
+@if (label()) {
+<label [for]="property()">
   {{ label() }}
 </label>
+}
 
 @for (option of options(); track getKey()(option)) {
 <div class="option">
