@@ -1,19 +1,20 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, FormRecord, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import type { Attribute } from '@app/attribute/types/models';
 import type { DocumentType, DocumentTypeID } from '@app/document-type/types/models';
 import { DocumentAttributes, NewDocument, Text, Title } from '@app/document/types/models';
 import { Binary } from '@app/file/types/override';
 import { DocumentViewer } from '@app/document/components/document-viewer/document-viewer';
-import { DocumentService, FileService } from '@services';
+import { DocumentService, FileService, FolderService } from '@services';
 import { BaseButtonDirective } from '@directives/base-button/base-button';
 import { TextInput } from '@components/form/text-input/text-input';
 import { CardContainer } from '@components/containers/card-container/card-container';
 import { DocumentTypeService } from '@services';
 import { SelectInput } from '@components/form/select-input/select-input';
 import { FileInput } from '@components/form/file-input/file-input';
+import type { Folder, FolderID } from '@app/folder/types/model';
 
 @Component({
   selector: 'sh-document-form-page',
@@ -31,12 +32,15 @@ import { FileInput } from '@components/form/file-input/file-input';
 })
 export class DocumentFormPage implements OnInit {
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private readonly document = inject(DocumentService);
   private readonly documentTypeService = inject(DocumentTypeService);
   private readonly fileService = inject(FileService);
+  private readonly folderService = inject(FolderService);
 
   protected documentTypes = signal<DocumentType[]>([]);
   protected selectedAttributes = signal<Attribute[]>([]);
+  private folder: Folder | null = null;
 
   protected readonly getLabel = (type: DocumentType): string => type.name;
   protected readonly getValue = (type: DocumentType): string => type.id;
@@ -64,6 +68,18 @@ export class DocumentFormPage implements OnInit {
   });
 
   public ngOnInit(): void {
+    const folderId = this.route.snapshot.queryParamMap.get('folder') as FolderID | null;
+    if (folderId) {
+      this.folderService.getById(folderId).subscribe({
+        next: (folder) => {
+          this.folder = folder;
+        },
+        error: (err) => {
+          console.error('Folder retrieval failed:', err);
+        },
+      });
+    }
+
     this.documentTypeService
       .getAll()
       .subscribe((documentTypes) => {
@@ -92,7 +108,7 @@ export class DocumentFormPage implements OnInit {
   }
 
   protected submit(): void {
-    if (this.documentForm.invalid) {
+    if (this.documentForm.invalid || !this.folder) {
       this.documentForm.markAllAsTouched();
       return;
     }
@@ -109,12 +125,11 @@ export class DocumentFormPage implements OnInit {
             title: this.documentForm.get('title')?.value as Title,
             description: this.documentForm.get('description')?.value as Text,
             type: this.getDocumentTypeById(this.documentForm.get('type')?.value as DocumentTypeID),
-            file: file,
             ...(Object.keys(attributes).length > 0 ? { attributes } : {}),
           };
 
           this.document
-            .create(newDocument)
+            .create(newDocument, this.folder!, file)
             .subscribe({
               next: () => {
                 this.router.navigate(['/documents']);

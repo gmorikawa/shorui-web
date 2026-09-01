@@ -69,7 +69,8 @@ export class DocumentListPage implements OnInit {
   }
 
   protected navigateToForm(): void {
-    this.router.navigate(['/documents/register']);
+    this.folder.saveInCache(this.currentFolder()!);
+    this.router.navigate(['/documents/register'], { queryParams: { folder: this.currentFolder()?.id } });
   }
 
   protected addNewFolder(): void {

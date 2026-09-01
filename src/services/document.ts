@@ -4,6 +4,7 @@ import { inject, Service } from "@angular/core";
 import { NewDocument, Document } from "@app/document/types/models";
 import { APIService, AuthService } from "@services";
 import { Folder } from "@app/folder/types/model";
+import { File } from "@app/file/types/models";
 
 @Service()
 export class DocumentService extends APIService {
@@ -25,7 +26,7 @@ export class DocumentService extends APIService {
     );
   }
 
-  public create(newDocument: NewDocument): Observable<Document> {
+  public create(newDocument: NewDocument, folder: Folder, file: File): Observable<Document> {
     const headers = {
       Authorization: this.auth.getBearerToken(),
     };
@@ -36,8 +37,9 @@ export class DocumentService extends APIService {
         title: newDocument.title,
         description: newDocument.description,
         type_id: newDocument.type.id,
-        file_id: newDocument.file.id,
         attributes: newDocument.attributes,
+        file_id: file.id,
+        folder_id: folder.id,
       },
       { headers }
     );
