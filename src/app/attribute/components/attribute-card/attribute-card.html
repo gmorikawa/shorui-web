@@ -9,4 +9,12 @@
       </p>
     </div>
   </header>
+
+  <footer>
+    @for (action of actions(); track $index) {
+      <button base-button (click)="action.callback(attribute()!)">
+        {{ action.label }}
+      </button>
+    }
+  </footer>
 </card-container>

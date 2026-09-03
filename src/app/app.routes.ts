@@ -57,7 +57,11 @@ export const routes: Routes = [
         component: AttributeListPage,
       },
       {
-        path: 'attributes/register',
+        path: 'attributes/form',
+        component: AttributeFormPage,
+      },
+      {
+        path: 'attributes/form/:key',
         component: AttributeFormPage,
       },
     ]

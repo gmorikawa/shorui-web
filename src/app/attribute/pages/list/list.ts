@@ -31,7 +31,11 @@ export class AttributeListPage implements OnInit {
       });
   }
 
-  protected navigateToForm(): void {
-    this.router.navigate(['/attributes/register']);
+  protected navigateToForm(attribute?: Attribute): void {
+    if (attribute) {
+      this.router.navigate(['/attributes/form', attribute.key]);
+    } else {
+      this.router.navigate(['/attributes/form']);
+    }
   }
 }
