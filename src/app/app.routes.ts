@@ -29,7 +29,11 @@ export const routes: Routes = [
         component: UserListPage,
       },
       {
-        path: 'users/register',
+        path: 'users/form',
+        component: UserFormPage,
+      },
+      {
+        path: 'users/form/:id',
         component: UserFormPage,
       },
       {

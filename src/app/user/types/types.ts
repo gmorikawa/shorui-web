@@ -6,6 +6,7 @@ export type FullName = string;
 export type Email = string;
 
 export type NewUser = Omit<User, "id" | "folder"> & { password: PlainPassword };
+export type EditUser = Omit<User, "id" | "folder" | "role"> & { currentPassword?: PlainPassword };
 export type NewAdmin = Omit<User, "id" | "role" | "folder"> & { password: PlainPassword };
 
 export interface User {

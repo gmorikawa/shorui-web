@@ -1,30 +1,49 @@
 <card-container>
-  <h1>Register User</h1>
+  <header>
+    <h1>
+      {{ pageTitle }}
+    </h1>
+  </header>
 
-  <form [formGroup]="userForm" (ngSubmit)="submit()">
-    <sh-text-input
-      property="name"
-      label="Full Name"
-      placeholder="Enter full name"
-      formControlName="name"
-    />
+  <main>
+    <form [formGroup]="userForm" (ngSubmit)="submit()">
+      <sh-text-input
+        property="name"
+        label="Full Name"
+        placeholder="Clark Kent"
+        formControlName="name"
+      />
 
-    <sh-email-input
-      property="email"
-      label="Email Address"
-      placeholder="Enter email"
-      formControlName="email"
-    />
+      <sh-email-input
+        property="email"
+        label="Email Address"
+        placeholder="illuminate@example.com"
+        formControlName="email"
+      />
 
-    <sh-password-input
-      property="password"
-      label="Password"
-      placeholder="Create a password"
-      formControlName="password"
-    />
+      @if (isEdit) {
+        <sh-password-input
+          property="currentPassword"
+          label="Current Password"
+          placeholder="******"
+          formControlName="currentPassword"
+        />
+      } @else {
+        <sh-password-input
+          property="password"
+          label="Password"
+          placeholder="******"
+          formControlName="password"
+        />
+      }
 
-    <button base-button type="submit" [disabled]="userForm.invalid">
-      Register
-    </button>
-  </form>
+      <button base-button type="submit" [disabled]="userForm.invalid">
+        {{ submitButtonLabel }}
+      </button>
+
+      <button base-button type="button" (click)="cancel()">
+        Cancel
+      </button>
+    </form>
+  </main>
 </card-container>

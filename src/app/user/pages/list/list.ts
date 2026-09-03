@@ -28,7 +28,11 @@ export class UserListPage implements OnInit {
       });
   }
 
-  protected navigateToForm(): void {
-    this.router.navigate(['/users/register']);
+  protected navigateToForm(user?: User): void {
+    if (user) {
+      this.router.navigate(['/users/form', user.id]);
+    } else {
+      this.router.navigate(['/users/form']);
+    }
   }
 }

@@ -6,6 +6,11 @@
   </div>
 
   @for (user of users(); track user.id) {
-  <sh-user-card [user]="user" />
+  <sh-user-card
+    [user]="user"
+    [actions]="[
+      { label: 'Edit', callback: navigateToForm.bind(this) }
+    ]"
+  />
   }
 </sh-stack>

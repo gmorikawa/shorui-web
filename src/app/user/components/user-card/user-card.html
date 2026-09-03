@@ -15,4 +15,12 @@
       </span>
     </div>
   </header>
+
+  <footer>
+    @for (action of actions(); track $index) {
+      <button base-button (click)="action.callback(user()!)">
+        {{ action.label }}
+      </button>
+    }
+  </footer>
 </card-container>
