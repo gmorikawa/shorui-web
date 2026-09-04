@@ -16,10 +16,10 @@ import { BaseInputDirective } from "@directives/base-input/base-input";
   styleUrls: ["./checkbox-input.scss"],
 })
 export class CheckboxInput<T = unknown> implements ControlValueAccessor {
-  onChangeFn: any = () => {};
-  onTouchedFn: any = () => {};
+  onChangeFn: (value: T[]) => void = () => {};
+  onTouchedFn: () => void = () => {};
 
-  value = model<unknown[]>([]);
+  value = model<T[]>([]);
   readonly property = input<string>("")
   readonly label = input<string>("");
   readonly error = signal<boolean>(false);
@@ -32,15 +32,15 @@ export class CheckboxInput<T = unknown> implements ControlValueAccessor {
   readonly formDisabled = signal<boolean>(false);
   readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
 
-  writeValue(newValue: unknown[] | null): void {
+  writeValue(newValue: T[] | null): void {
     this.value.set(newValue ?? []);
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (value: T[]) => void): void {
     this.onChangeFn = fn;
   }
 
-  registerOnTouched(handler: any): void {
+  registerOnTouched(handler: () => void): void {
     this.onTouchedFn = handler;
   }
 
@@ -49,17 +49,15 @@ export class CheckboxInput<T = unknown> implements ControlValueAccessor {
   }
 
   protected isChecked(option: T): boolean {
-    return this.value().includes(this.getKey()(option));
+    return this.value().some((value) => this.getKey()(value) === this.getKey()(option));
   }
 
   protected handleChange(option: T, event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     const checked = inputElement.checked;
-    const key = this.getKey()(option);
-
     const updated = checked
-      ? [...this.value(), key]
-      : this.value().filter((value) => value !== key);
+      ? [...this.value(), option]
+      : this.value().filter((value) => this.getKey()(value) !== this.getKey()(option));
 
     this.value.set(updated);
 
@@ -69,4 +67,3 @@ export class CheckboxInput<T = unknown> implements ControlValueAccessor {
     this.error.set(updated.length === 0);
   }
 }
-

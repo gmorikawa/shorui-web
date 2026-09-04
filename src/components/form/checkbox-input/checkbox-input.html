@@ -8,6 +8,7 @@
 <div class="option">
   <input base-input
     type="checkbox"
+    [value]="getKey()(option)"
     [checked]="isChecked(option)"
     [id]="property() + '-' + getKey()(option)"
     [disabled]="isDisabled()"
