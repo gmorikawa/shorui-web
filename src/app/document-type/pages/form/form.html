@@ -1,32 +1,40 @@
 <card-container>
-  <h1>Register Document Type</h1>
+  <header>
+    <h1>{{ pageTitle }}</h1>
+  </header>
 
-  <form [formGroup]="documentTypeForm" (ngSubmit)="submit()">
-    <sh-text-input
-      property="name"
-      label="Name"
-      placeholder="Enter name"
-      formControlName="name"
-    />
+  <main>
+    <form [formGroup]="documentTypeForm" (ngSubmit)="submit()">
+      <sh-text-input
+        property="name"
+        label="Name"
+        placeholder="Enter name"
+        formControlName="name"
+      />
 
-    <sh-text-input
-      property="description"
-      label="Description"
-      placeholder="Enter description"
-      formControlName="description"
-    />
+      <sh-text-input
+        property="description"
+        label="Description"
+        placeholder="Enter description"
+        formControlName="description"
+      />
 
-    <sh-checkbox-input
-      property="attributes"
-      label="Attributes"
-      [options]="($attributes | async) ?? []"
-      [getKey]="getAttributeKey"
-      [getLabel]="getAttributeLabel"
-      formControlName="attributes"
-    />
+      <sh-checkbox-input
+        property="attributes"
+        label="Attributes"
+        [options]="($attributes | async) ?? []"
+        [getKey]="getAttributeKey"
+        [getLabel]="getAttributeLabel"
+        formControlName="attributes"
+      />
 
-    <button base-button type="submit" [disabled]="documentTypeForm.invalid">
-      Register
-    </button>
-  </form>
+      <button base-button type="submit" [disabled]="documentTypeForm.invalid">
+        {{ submitButtonLabel }}
+      </button>
+
+      <button base-button type="button" (click)="cancel()">
+        Cancel
+      </button>
+    </form>
+  </main>
 </card-container>

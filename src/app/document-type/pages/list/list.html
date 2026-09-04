@@ -6,6 +6,11 @@
   </div>
 
   @for (documentType of documentTypes(); track documentType.id) {
-  <sh-document-type-card [documentType]="documentType" />
+  <sh-document-type-card
+    [documentType]="documentType"
+    [actions]="[
+      { label: 'Edit', callback: navigateToForm.bind(this) }
+    ]"
+  />
   }
 </sh-stack>

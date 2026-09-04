@@ -4,6 +4,16 @@ header {
   justify-content: space-between;
 }
 
+footer {
+  margin-top: var(--spacing-sm);
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+    padding: var(--spacing-sm);
+  }
+}
+
 .title {
   font-weight: bold;
   font-size: 1.2rem;

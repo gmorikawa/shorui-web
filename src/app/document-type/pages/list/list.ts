@@ -31,7 +31,11 @@ export class DocumentTypeListPage implements OnInit {
       });
   }
 
-  protected navigateToForm(): void {
-    this.router.navigate(['/types/register']);
+  protected navigateToForm(documentType?: DocumentType): void {
+    if (documentType) {
+      this.router.navigate(['/document-types/register', documentType.id]);
+    } else {
+      this.router.navigate(['/document-types/register']);
+    }
   }
 }

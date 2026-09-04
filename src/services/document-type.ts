@@ -1,7 +1,11 @@
 import { Observable } from "rxjs";
 import { inject, Service } from "@angular/core";
 
-import { NewDocumentType, DocumentType, DocumentTypeID } from "@app/document-type/types/models";
+import {
+  NewDocumentType,
+  DocumentType,
+  DocumentTypeID,
+} from "@app/document-type/types/models";
 import { APIService, AuthService } from "@services";
 
 @Service()
@@ -24,6 +28,17 @@ export class DocumentTypeService extends APIService {
     );
   }
 
+  public getById(id: DocumentTypeID): Observable<DocumentType> {
+    const headers = {
+      Authorization: this.auth.getBearerToken(),
+    };
+
+    return this.http.get<DocumentType>(
+      `${this.apiUrl}/document-types/${id}`,
+      { headers }
+    );
+  }
+
   public create(newDocumentType: NewDocumentType): Observable<DocumentType> {
     const headers = {
       Authorization: this.auth.getBearerToken(),
@@ -31,20 +46,27 @@ export class DocumentTypeService extends APIService {
 
     return this.http.post<DocumentType>(
       `${this.apiUrl}/document-types`,
-      newDocumentType,
+      this.normalizeAttributes(newDocumentType),
       { headers }
     );
   }
 
-  public update(id: DocumentTypeID, updatedDocumentType: DocumentType): Observable<DocumentType> {
+  public update(id: DocumentTypeID, documentType: DocumentType): Observable<DocumentType> {
     const headers = {
       Authorization: this.auth.getBearerToken(),
     };
 
     return this.http.put<DocumentType>(
       `${this.apiUrl}/document-types/${id}`,
-      updatedDocumentType,
+      this.normalizeAttributes(documentType),
       { headers }
     );
+  }
+
+  private normalizeAttributes(documentType: DocumentType | NewDocumentType): any {
+    return {
+      ...documentType,
+      attributes: documentType.attributes.map(attribute => attribute?.key ?? attribute),
+    };
   }
 }

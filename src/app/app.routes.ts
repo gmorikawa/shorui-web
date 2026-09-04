@@ -45,11 +45,15 @@ export const routes: Routes = [
         component: DocumentFormPage,
       },
       {
-        path: 'types',
+        path: 'document-types',
         component: DocumentTypeListPage,
       },
       {
-        path: 'types/register',
+        path: 'document-types/register',
+        component: DocumentTypeFormPage,
+      },
+      {
+        path: 'document-types/register/:id',
         component: DocumentTypeFormPage,
       },
       {
