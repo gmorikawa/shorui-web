@@ -44,4 +44,15 @@ export class DocumentService extends APIService {
       { headers }
     );
   }
+
+  public download(document: Document): Observable<Blob> {
+    const headers = {
+      Authorization: this.auth.getBearerToken(),
+    };
+
+    return this.http.get(
+      `${this.apiUrl}/documents/${document.id}/download`,
+      { headers, responseType: 'blob' }
+    );
+  }
 }

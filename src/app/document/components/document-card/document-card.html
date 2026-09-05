@@ -6,4 +6,12 @@
       <p class="card-description">{{ document()?.description }}</p>
     </header>
   </header>
+
+  <footer>
+    @for (action of actions(); track $index) {
+      <button base-button (click)="action.callback(document()!)">
+        {{ action.label }}
+      </button>
+    }
+  </footer>
 </card-container>

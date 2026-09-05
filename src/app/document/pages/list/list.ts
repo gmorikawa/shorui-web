@@ -73,6 +73,24 @@ export class DocumentListPage implements OnInit {
     this.router.navigate(['/documents/register'], { queryParams: { folder: this.currentFolder()?.id } });
   }
 
+  protected download = (document: Document): void => {
+    this.document.download(document).subscribe({
+      next: (file) => {
+        const url = URL.createObjectURL(file);
+        const link = window.document.createElement('a');
+
+        link.href = url;
+        link.download = document.title;
+        link.click();
+
+        URL.revokeObjectURL(url);
+      },
+      error: (err) => {
+        console.error('Document download failed:', err);
+      },
+    });
+  };
+
   protected addNewFolder(): void {
     this.temporaryNewFolder.set({ name: '' });
   }
