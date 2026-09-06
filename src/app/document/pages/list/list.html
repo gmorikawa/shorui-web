@@ -12,7 +12,11 @@
   <breadcrumb-navigator [items]="breadcrumbItems()"></breadcrumb-navigator>
 
   @for (folder of folders(); track folder.id) {
-    <folder-card [folder]="folder" (open)="navigateToFolder(folder)" />
+    <folder-card
+      [folder]="folder"
+      [actions]="[{ label: 'Delete', callback: deleteFolder }]"
+      (open)="navigateToFolder(folder)"
+    />
   }
 
   @if (temporaryNewFolder()) {

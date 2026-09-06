@@ -127,6 +127,24 @@ export class DocumentListPage implements OnInit {
     });
   };
 
+  protected deleteFolder = (folder: Folder): void => {
+    if (!window.confirm(`Delete folder "${folder.name}"? This cannot be undone.`)) {
+      return;
+    }
+
+    this.folder
+      .delete(folder.id)
+      .subscribe({
+        next: () => {
+          this.folder.removeFromCache(folder.id);
+          this.folders.update((folders) => folders.filter(({ id }) => id !== folder.id));
+        },
+        error: () => {
+          this.feedback.showErrorMessage('Unable to delete folder. Please try again.');
+        },
+      });
+  };
+
   protected addNewFolder(): void {
     this.temporaryNewFolder.set({ name: '' });
   }

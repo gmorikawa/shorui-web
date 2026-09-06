@@ -80,4 +80,15 @@ export class FolderService extends APIService {
       { headers }
     );
   }
+
+  public delete(id: FolderID): Observable<void> {
+    const headers = {
+      Authorization: this.auth.getBearerToken(),
+    };
+
+    return this.http.delete<void>(
+      `${this.apiUrl}/folders/${id}`,
+      { headers }
+    );
+  }
 }

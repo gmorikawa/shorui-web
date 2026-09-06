@@ -16,3 +16,14 @@ header {
     margin-top: 0.5rem;
   }
 }
+
+footer {
+  margin-top: var(--spacing-sm);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+
+  button {
+    padding: var(--spacing-sm);
+  }
+}

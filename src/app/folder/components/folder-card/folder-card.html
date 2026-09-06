@@ -1,5 +1,19 @@
 <folder-card-base (open)="open.emit($event)">
-  <p class="card-title">
-    {{ folder().name }}
-  </p>
+  <header>
+    <p class="card-title">
+      {{ folder().name }}
+    </p>
+  </header>
+
+  <footer folder-card-actions>
+    @for (action of actions(); track $index) {
+      <button
+        base-button
+        type="button"
+        (click)="action.callback(folder()); $event.stopPropagation()"
+      >
+        {{ action.label }}
+      </button>
+    }
+  </footer>
 </folder-card-base>
