@@ -94,7 +94,7 @@ export class DocumentTypeFormPage implements OnInit {
   }
 
   protected cancel(): void {
-    this.router.navigate(['/document-types']);
+    this.router.navigate(['/app/document-types']);
   }
 
   private create() {
@@ -108,7 +108,7 @@ export class DocumentTypeFormPage implements OnInit {
       .create(documentType)
       .subscribe({
         next: () => {
-          this.router.navigate(['/document-types']);
+          this.router.navigate(['/app/document-types']);
         },
         error: (err) => {
           console.error(`Document type creation failed:`, err);
@@ -128,7 +128,7 @@ export class DocumentTypeFormPage implements OnInit {
       .update(this.id!, documentType)
       .subscribe({
         next: () => {
-          this.router.navigate(['/document-types']);
+          this.router.navigate(['/app/document-types']);
         },
         error: (err) => {
           console.error(`Document type update failed:`, err);

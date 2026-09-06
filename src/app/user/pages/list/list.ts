@@ -30,9 +30,9 @@ export class UserListPage implements OnInit {
 
   protected navigateToForm(user?: User): void {
     if (user) {
-      this.router.navigate(['/users/form', user.id]);
+      this.router.navigate(['/app/users/form', user.id]);
     } else {
-      this.router.navigate(['/users/form']);
+      this.router.navigate(['/app/users/form']);
     }
   }
 }

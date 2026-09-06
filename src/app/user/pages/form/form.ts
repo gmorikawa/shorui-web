@@ -72,7 +72,7 @@ export class UserFormPage implements OnInit {
   }
 
   protected cancel(): void {
-    this.router.navigate(['/users']);
+    this.router.navigate(['/app/users']);
   }
 
   private create() {
@@ -87,7 +87,7 @@ export class UserFormPage implements OnInit {
       .create(newUser)
       .subscribe({
         next: () => {
-          this.router.navigate(['/users']);
+          this.router.navigate(['/app/users']);
         },
         error: (err) => {
           console.error('User registration failed:', err);
@@ -106,7 +106,7 @@ export class UserFormPage implements OnInit {
       .update(this.id!, editedUser)
       .subscribe({
         next: () => {
-          this.router.navigate(['/users']);
+          this.router.navigate(['/app/users']);
         },
         error: (err) => {
           console.error('User update failed:', err);

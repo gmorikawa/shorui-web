@@ -127,7 +127,7 @@ export class DocumentFormPage implements OnInit {
   }
 
   protected cancel(): void {
-    this.router.navigate(['/documents']);
+    this.router.navigate(['/app/documents']);
   }
 
   private create(): void {
@@ -155,7 +155,7 @@ export class DocumentFormPage implements OnInit {
             .create(newDocument)
             .subscribe({
               next: () => {
-                this.router.navigate(['/documents']);
+                this.router.navigate(['/app/documents']);
               },
               error: (err) => {
                 console.error('Document creation failed:', err);
@@ -185,7 +185,7 @@ export class DocumentFormPage implements OnInit {
         .update(this.id!, editedDocument)
         .subscribe({
           next: () => {
-            this.router.navigate(['/documents']);
+            this.router.navigate(['/app/documents']);
           },
           error: (err) => {
             console.error('Document update failed:', err);

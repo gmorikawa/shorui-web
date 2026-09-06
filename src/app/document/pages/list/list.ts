@@ -49,7 +49,7 @@ export class DocumentListPage implements OnInit {
       this.folderStack.push(user.folder);
     });
 
-    this.breadcrumbItems.set([{ label: 'home', url: '/' }]);
+    this.breadcrumbItems.set([{ label: 'home', url: '/app/documents' }]);
   }
 
   protected openFolder(folder: Folder): void {
@@ -70,14 +70,14 @@ export class DocumentListPage implements OnInit {
 
   protected navigateToForm(): void {
     this.folder.saveInCache(this.currentFolder()!);
-    this.router.navigate(['/documents/register'], {
+    this.router.navigate(['/app/documents/register'], {
       queryParams: { folder: this.currentFolder()?.id },
     });
   }
 
   protected edit = (document: Document): void => {
     this.folder.saveInCache(this.currentFolder()!);
-    this.router.navigate(['/documents/register', document.id], {
+    this.router.navigate(['/app/documents/register', document.id], {
       queryParams: { folder: this.currentFolder()?.id },
     });
   };

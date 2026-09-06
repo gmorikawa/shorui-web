@@ -55,7 +55,7 @@ export class LoginPage {
       .login(credentials)
       .subscribe({
         next: ({ token }) => {
-          this.router.navigate(['/users']);
+          this.router.navigate(['/app/users']);
         },
         error: (err) => {
           console.error('Login failed:', err);

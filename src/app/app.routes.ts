@@ -21,7 +21,7 @@ export const routes: Routes = [
     component: LoginPage,
   },
   {
-    path: '',
+    path: 'app',
     component: MainLayout,
     children: [
       {
@@ -77,5 +77,5 @@ export const routes: Routes = [
   {
     path: '**',
     redirectTo: 'auth/login',
-  },
+  }
 ];

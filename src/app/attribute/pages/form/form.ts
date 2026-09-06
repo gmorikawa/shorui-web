@@ -69,7 +69,7 @@ export class AttributeFormPage implements OnInit {
     request
       .subscribe({
         next: () => {
-          this.router.navigate(['/attributes']);
+          this.router.navigate(['/app/attributes']);
         },
         error: (err) => {
           console.error(`Attribute ${this.isEdit ? 'update' : 'creation'} failed:`, err);
@@ -78,7 +78,7 @@ export class AttributeFormPage implements OnInit {
   }
 
   protected cancel(): void {
-    this.router.navigate(['/attributes']);
+    this.router.navigate(['/app/attributes']);
   }
 
   private setTitle(isEdit: boolean): void {

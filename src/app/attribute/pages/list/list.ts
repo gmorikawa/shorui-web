@@ -33,9 +33,9 @@ export class AttributeListPage implements OnInit {
 
   protected navigateToForm(attribute?: Attribute): void {
     if (attribute) {
-      this.router.navigate(['/attributes/form', attribute.key]);
+      this.router.navigate(['/app/attributes/form', attribute.key]);
     } else {
-      this.router.navigate(['/attributes/form']);
+      this.router.navigate(['/app/attributes/form']);
     }
   }
 }
