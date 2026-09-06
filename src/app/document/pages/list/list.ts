@@ -15,6 +15,7 @@ import {
   BreadcrumbNavigator,
 } from '@components/navigation/breadcrumb-navigator/breadcrumb-navigator';
 import { stackSignal } from '@app/shared/utils/stack-signal';
+import { FeedbackService } from 'services/feedback';
 
 @Component({
   selector: 'sh-document-list-page',
@@ -34,6 +35,7 @@ export class DocumentListPage implements OnInit {
   private readonly folder = inject(FolderService);
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly feedback = inject(FeedbackService);
 
   protected folders = signal<Folder[]>([]);
   protected folderStack = stackSignal<Folder>([]);
@@ -44,9 +46,14 @@ export class DocumentListPage implements OnInit {
   protected breadcrumbItems = signal<BreadcrumbItem[]>([]);
 
   public ngOnInit(): void {
-    this.auth.getLoggedUser().subscribe((user) => {
-      this.loadFolder(user.folder);
-      this.folderStack.push(user.folder);
+    this.auth.getLoggedUser().subscribe({
+      next: (user) => {
+        this.loadFolder(user.folder);
+        this.folderStack.push(user.folder);
+      },
+      error: () => {
+        this.feedback.showErrorMessage('Unable to load documents. Please try again.');
+      },
     });
 
     this.breadcrumbItems.set([{ label: 'home', url: '/app/documents' }]);
@@ -62,9 +69,14 @@ export class DocumentListPage implements OnInit {
     forkJoin({
       folders: this.folder.getByParent(folder),
       documents: this.document.getByFolder(folder),
-    }).subscribe(({ folders, documents }) => {
-      this.folders.set(folders);
-      this.documents.set(documents);
+    }).subscribe({
+      next: ({ folders, documents }) => {
+        this.folders.set(folders);
+        this.documents.set(documents);
+      },
+      error: () => {
+        this.feedback.showErrorMessage('Unable to load folder contents. Please try again.');
+      },
     });
   }
 
@@ -94,8 +106,8 @@ export class DocumentListPage implements OnInit {
 
         URL.revokeObjectURL(url);
       },
-      error: (err) => {
-        console.error('Document download failed:', err);
+      error: () => {
+        this.feedback.showErrorMessage('Unable to download document. Please try again.');
       },
     });
   };
@@ -109,8 +121,8 @@ export class DocumentListPage implements OnInit {
       next: () => {
         this.documents.update((documents) => documents.filter(({ id }) => id !== document.id));
       },
-      error: (err) => {
-        console.error('Document deletion failed:', err);
+      error: () => {
+        this.feedback.showErrorMessage('Unable to delete document. Please try again.');
       },
     });
   };
@@ -123,9 +135,14 @@ export class DocumentListPage implements OnInit {
     const newFolder = this.temporaryNewFolder();
 
     if (newFolder && this.currentFolder()) {
-      this.folder.create(name, this.currentFolder()!).subscribe(() => {
-        this.loadFolder(this.currentFolder()!);
-        this.temporaryNewFolder.set(null);
+      this.folder.create(name, this.currentFolder()!).subscribe({
+        next: () => {
+          this.loadFolder(this.currentFolder()!);
+          this.temporaryNewFolder.set(null);
+        },
+        error: () => {
+          this.feedback.showErrorMessage('Unable to create folder. Please try again.');
+        },
       });
     }
   };

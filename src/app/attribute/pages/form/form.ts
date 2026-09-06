@@ -7,6 +7,7 @@ import { AttributeKey, Label, NewAttribute } from '@app/attribute/types/models';
 import { BaseButtonDirective } from '@directives/base-button/base-button';
 import { TextInput } from '@components/form/text-input/text-input';
 import { CardContainer } from '@components/containers/card-container/card-container';
+import { FeedbackService } from 'services/feedback';
 
 @Component({
   selector: 'sh-attribute-form-page',
@@ -23,6 +24,7 @@ export class AttributeFormPage implements OnInit {
   private readonly router = inject(Router);
   private readonly attribute = inject(AttributeService);
   private readonly activeRoute = inject(ActivatedRoute);
+  private readonly feedback = inject(FeedbackService);
 
   protected key: AttributeKey | null = null;
   protected pageTitle = 'Create Attribute';
@@ -43,8 +45,8 @@ export class AttributeFormPage implements OnInit {
         next: (attribute) => {
           this.attributeForm.patchValue(attribute);
         },
-        error: (err) => {
-          console.error('Failed to fetch attribute data:', err);
+        error: () => {
+          this.feedback.showErrorMessage('Unable to load attribute data. Please try again.');
         },
       });
     }
@@ -71,8 +73,10 @@ export class AttributeFormPage implements OnInit {
         next: () => {
           this.router.navigate(['/app/attributes']);
         },
-        error: (err) => {
-          console.error(`Attribute ${this.isEdit ? 'update' : 'creation'} failed:`, err);
+        error: () => {
+          this.feedback.showErrorMessage(
+            `Unable to ${this.isEdit ? 'update' : 'create'} attribute. Please try again.`,
+          );
         },
       });
   }

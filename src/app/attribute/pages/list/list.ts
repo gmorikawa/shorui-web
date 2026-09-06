@@ -6,6 +6,7 @@ import { Attribute } from '@app/attribute/types/models';
 import { AttributeCard } from '@app/attribute/components/attribute-card/attribute-card';
 import { Stack } from '@components/stack/stack';
 import { BaseButtonDirective } from '@directives/base-button/base-button';
+import { FeedbackService } from 'services/feedback';
 
 @Component({
   selector: 'sh-attribute-list-page',
@@ -20,14 +21,20 @@ import { BaseButtonDirective } from '@directives/base-button/base-button';
 export class AttributeListPage implements OnInit {
   private readonly attribute = inject(AttributeService);
   private readonly router = inject(Router);
+  private readonly feedback = inject(FeedbackService);
 
   protected attributes = signal<Attribute[]>([]);
 
   public ngOnInit(): void {
     this.attribute
       .getAll()
-      .subscribe(attributes => {
-        this.attributes.set(attributes);
+      .subscribe({
+        next: (attributes) => {
+          this.attributes.set(attributes);
+        },
+        error: () => {
+          this.feedback.showErrorMessage('Unable to load attributes. Please try again.');
+        },
       });
   }
 

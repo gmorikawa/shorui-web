@@ -10,6 +10,7 @@ import { BaseButtonDirective } from "@directives/base-button/base-button";
 import { PasswordInput } from '@components/form/password-input/password-input';
 import { TextInput } from '@components/form/text-input/text-input';
 import { EmailInput } from '@components/form/email-input/email-input';
+import { FeedbackService } from 'services/feedback';
 
 @Component({
   selector: 'sh-first-access',
@@ -27,6 +28,7 @@ import { EmailInput } from '@components/form/email-input/email-input';
 export class FirstAccessPage {
   private readonly router = inject(Router);
   private readonly auth: AuthService = inject(AuthService);
+  private readonly feedback = inject(FeedbackService);
 
   protected readonly firstAccessForm = new FormGroup({
     name: new FormControl('', {
@@ -61,8 +63,8 @@ export class FirstAccessPage {
         next: (created) => {
           this.router.navigate(['/auth/login']);
         },
-        error: (err) => {
-          console.error('First access failed:', err);
+        error: () => {
+          this.feedback.showErrorMessage('Account setup failed. Please try again.');
         },
       }
     );

@@ -10,6 +10,7 @@ import { PasswordInput } from "@components/form/password-input/password-input";
 import { EmailInput } from "@components/form/email-input/email-input";
 import { AuthLayout } from "@app/auth/components/auth-layout/auth-layout";
 import { SwitchInput } from "@components/form/switch-input/switch-input";
+import { FeedbackService } from "services/feedback";
 
 @Component({
   selector: "sh-login",
@@ -27,6 +28,7 @@ import { SwitchInput } from "@components/form/switch-input/switch-input";
 export class LoginPage {
   private readonly router = inject(Router);
   private readonly auth = inject(AuthService);
+  private readonly feedback = inject(FeedbackService);
 
   protected readonly loginForm = new FormGroup({
     email: new FormControl('', {
@@ -57,8 +59,8 @@ export class LoginPage {
         next: ({ token }) => {
           this.router.navigate(['/app/users']);
         },
-        error: (err) => {
-          console.error('Login failed:', err);
+        error: () => {
+          this.feedback.showErrorMessage('Login failed. Please try again.');
         },
       }
     );

@@ -2,6 +2,7 @@ import { AsyncPipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { tap } from 'rxjs';
 
 import { AttributeService, DocumentTypeService } from '@services';
 import {
@@ -16,6 +17,7 @@ import { TextInput } from '@components/form/text-input/text-input';
 import { CheckboxInput } from '@components/form/checkbox-input/checkbox-input';
 import { CardContainer } from '@components/containers/card-container/card-container';
 import { Attribute } from '@app/attribute/types/models';
+import { FeedbackService } from 'services/feedback';
 
 @Component({
   selector: 'sh-document-type-form-page',
@@ -35,8 +37,15 @@ export class DocumentTypeFormPage implements OnInit {
   private readonly attributes = inject(AttributeService);
   private readonly documentTypes = inject(DocumentTypeService);
   private readonly activeRoute = inject(ActivatedRoute);
+  private readonly feedback = inject(FeedbackService);
 
-  protected $attributes = this.attributes.getAll();
+  protected $attributes = this.attributes.getAll().pipe(
+    tap({
+      error: () => {
+        this.feedback.showErrorMessage('Unable to load attributes. Please try again.');
+      },
+    }),
+  );
   protected getAttributeLabel = (attribute: Attribute): string => attribute.label;
   protected getAttributeKey = (attribute: Attribute): string => attribute.key;
   protected id: DocumentTypeID | null = null;
@@ -73,8 +82,8 @@ export class DocumentTypeFormPage implements OnInit {
             attributes: documentType.attributes,
           });
         },
-        error: (err) => {
-          console.error('Failed to fetch document type data:', err);
+        error: () => {
+          this.feedback.showErrorMessage('Unable to load document type data. Please try again.');
         },
       });
     }
@@ -110,8 +119,8 @@ export class DocumentTypeFormPage implements OnInit {
         next: () => {
           this.router.navigate(['/app/document-types']);
         },
-        error: (err) => {
-          console.error(`Document type creation failed:`, err);
+        error: () => {
+          this.feedback.showErrorMessage('Unable to create document type. Please try again.');
         },
       });
   }
@@ -130,8 +139,8 @@ export class DocumentTypeFormPage implements OnInit {
         next: () => {
           this.router.navigate(['/app/document-types']);
         },
-        error: (err) => {
-          console.error(`Document type update failed:`, err);
+        error: () => {
+          this.feedback.showErrorMessage('Unable to update document type. Please try again.');
         },
       });
   }

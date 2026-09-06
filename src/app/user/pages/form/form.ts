@@ -10,6 +10,7 @@ import { TextInput } from '@components/form/text-input/text-input';
 import { EmailInput } from '@components/form/email-input/email-input';
 import { CardContainer } from '@components/containers/card-container/card-container';
 import { UserService } from '@services';
+import { FeedbackService } from 'services/feedback';
 
 @Component({
   selector: 'sh-user-form-page',
@@ -28,6 +29,7 @@ export class UserFormPage implements OnInit {
   private readonly router = inject(Router);
   private readonly users = inject(UserService);
   private readonly activeRoute = inject(ActivatedRoute);
+  private readonly feedback = inject(FeedbackService);
   
   protected id: UserID | null = null;
   protected pageTitle = '';
@@ -52,8 +54,8 @@ export class UserFormPage implements OnInit {
               email: user.email,
             });
         },
-        error: (err) => {
-          console.error('Failed to fetch user data:', err);
+        error: () => {
+          this.feedback.showErrorMessage('Unable to load user data. Please try again.');
         },
       });
     }
@@ -89,8 +91,8 @@ export class UserFormPage implements OnInit {
         next: () => {
           this.router.navigate(['/app/users']);
         },
-        error: (err) => {
-          console.error('User registration failed:', err);
+        error: () => {
+          this.feedback.showErrorMessage('Unable to create user. Please try again.');
         },
       });
   }
@@ -108,8 +110,8 @@ export class UserFormPage implements OnInit {
         next: () => {
           this.router.navigate(['/app/users']);
         },
-        error: (err) => {
-          console.error('User update failed:', err);
+        error: () => {
+          this.feedback.showErrorMessage('Unable to update user. Please try again.');
         },
       });
   }

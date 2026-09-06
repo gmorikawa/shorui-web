@@ -31,6 +31,7 @@ import { SelectInput } from '@components/form/select-input/select-input';
 import { FileInput } from '@components/form/file-input/file-input';
 import type { Folder, FolderID } from '@app/folder/types/models';
 import type { File } from '@app/file/types/models';
+import { FeedbackService } from 'services/feedback';
 
 type DocumentForm = FormGroup<{
   title: FormControl<Title>;
@@ -61,6 +62,7 @@ export class DocumentFormPage implements OnInit {
   private readonly documentTypeService = inject(DocumentTypeService);
   private readonly fileService = inject(FileService);
   private readonly folderService = inject(FolderService);
+  private readonly feedback = inject(FeedbackService);
   private folder: Folder | null = null;
   private temporaryFile: File | null = null;
 
@@ -101,8 +103,8 @@ export class DocumentFormPage implements OnInit {
           this.populateForm(document);
         }
       },
-      error: (err) => {
-        console.error('Document form data retrieval failed:', err);
+      error: () => {
+        this.feedback.showErrorMessage('Unable to load document form data. Please try again.');
       },
     });
 
@@ -132,7 +134,7 @@ export class DocumentFormPage implements OnInit {
 
   private create(): void {
     if (!this.folder) {
-      console.error('Document creation failed: no destination folder was selected.');
+      this.feedback.showErrorMessage('Select a destination folder before registering the document.');
       return;
     }
 
@@ -157,13 +159,13 @@ export class DocumentFormPage implements OnInit {
               next: () => {
                 this.router.navigate(['/app/documents']);
               },
-              error: (err) => {
-                console.error('Document creation failed:', err);
+              error: () => {
+                this.feedback.showErrorMessage('Unable to create document. Please try again.');
               },
             });
         },
-        error: (err) => {
-          console.error('File upload failed:', err);
+        error: () => {
+          this.feedback.showErrorMessage('Unable to upload file. Please try again.');
         },
       });
   }
@@ -187,8 +189,8 @@ export class DocumentFormPage implements OnInit {
           next: () => {
             this.router.navigate(['/app/documents']);
           },
-          error: (err) => {
-            console.error('Document update failed:', err);
+          error: () => {
+            this.feedback.showErrorMessage('Unable to update document. Please try again.');
           },
         });
     };
@@ -198,8 +200,8 @@ export class DocumentFormPage implements OnInit {
         .upload(binary)
         .subscribe({
           next: updateDocument,
-          error: (err) => {
-            console.error('File upload failed:', err);
+          error: () => {
+            this.feedback.showErrorMessage('Unable to upload file. Please try again.');
           },
         });
     } else {
