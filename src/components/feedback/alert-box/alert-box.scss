@@ -1,0 +1,71 @@
+:host {
+  --shadow-offset: 6px;
+
+  display: inline-block;
+  padding: var(--spacing-md);
+  position: absolute;
+  width: 75vw;
+
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--color-black);
+  border: 2px solid var(--color-black);
+
+  text-align: center;
+  top: 0;
+  left: 50%;
+}
+
+:host(.is-success) {
+  background-color: var(--color-success);
+}
+
+:host(.is-error) {
+  background-color: var(--color-error);
+}
+
+:host(.is-warning) {
+  background-color: var(--color-warning);
+}
+
+:host(.is-hidden) {
+  transform: translateY(calc(-100% - var(--shadow-offset))) translateX(-50%);
+  animation: alert-slide-up 250ms ease-in;
+}
+
+:host(.is-visible) {
+  transform: translateY(-10%) translateX(-50%);
+  animation: alert-slide-down 250ms ease-out;
+}
+
+@keyframes alert-slide-down {
+  0% {
+    transform: translateY(calc(-100% - var(--shadow-offset))) translateX(-50%);
+  }
+
+  75% {
+    transform: translateY(0) translateX(-50%);
+  }
+
+  100% {
+    transform: translateY(-10%) translateX(-50%);
+  }
+}
+
+@keyframes alert-slide-up {
+  0% {
+    transform: translateY(-10%) translateX(-50%);
+  }
+
+  75% {
+    transform: translateY(0) translateX(-50%);
+  }
+
+  100% {
+    transform: translateY(calc(-100% - var(--shadow-offset))) translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host(.is-visible) {
+    animation: none;
+  }
+}
