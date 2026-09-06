@@ -1,43 +1,36 @@
 <sh-stack>
   <div class="button-group">
-    <button base-button type="button" (click)="navigateToForm()">
-      Create Document
-    </button>
+    <button base-button type="button" (click)="navigateToForm()">Create Document</button>
 
-    <button base-button type="button" (click)="addNewFolder()">
-      Create Folder
-    </button>
+    <button base-button type="button" (click)="addNewFolder()">Create Folder</button>
 
     @if (folderStack.length() > 1) {
-    <button base-button type="button" (click)="navigateBack()">
-      Back
-    </button>
+      <button base-button type="button" (click)="navigateBack()">Back</button>
     }
   </div>
 
   <breadcrumb-navigator [items]="breadcrumbItems()"></breadcrumb-navigator>
 
   @for (folder of folders(); track folder.id) {
-  <folder-card
-    [folder]="folder"
-    (open)="navigateToFolder(folder)"
-  />
+    <folder-card [folder]="folder" (open)="navigateToFolder(folder)" />
   }
 
   @if (temporaryNewFolder()) {
-  <folder-new-card
-    [folder]="temporaryNewFolder()!"
-    [create]="saveNewFolder"
-    [cancel]="cancelNewFolder"
-  />
+    <folder-new-card
+      [folder]="temporaryNewFolder()!"
+      [create]="saveNewFolder"
+      [cancel]="cancelNewFolder"
+    />
   }
 
   @for (document of documents(); track document.id) {
-  <sh-document-card
-    [document]="document"
-    [actions]="[
-      { label: 'Download', callback: download }
-    ]"
-  />
+    <sh-document-card
+      [document]="document"
+      [actions]="[
+        { label: 'Download', callback: download },
+        { label: 'Edit', callback: edit },
+        { label: 'Delete', callback: delete },
+      ]"
+    />
   }
 </sh-stack>

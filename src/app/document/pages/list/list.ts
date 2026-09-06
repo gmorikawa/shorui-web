@@ -3,14 +3,17 @@ import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
 import { AuthService, DocumentService, FolderService, UserService } from '@services';
-import { Folder, NewFolder } from '@app/folder/types/model';
+import { Folder, NewFolder } from '@app/folder/types/models';
 import { Document } from '@app/document/types/models';
 import { DocumentCard } from '@app/document/components/document-card/document-card';
 import { Stack } from '@components/stack/stack';
 import { BaseButtonDirective } from '@directives/base-button/base-button';
 import { FolderNewCard } from '@app/folder/components/folder-new-card/folder-new-card';
 import { FolderCard } from '@app/folder/components/folder-card/folder-card';
-import { BreadcrumbItem, BreadcrumbNavigator } from '@components/navigation/breadcrumb-navigator/breadcrumb-navigator';
+import {
+  BreadcrumbItem,
+  BreadcrumbNavigator,
+} from '@components/navigation/breadcrumb-navigator/breadcrumb-navigator';
 import { stackSignal } from '@app/shared/utils/stack-signal';
 
 @Component({
@@ -41,15 +44,12 @@ export class DocumentListPage implements OnInit {
   protected breadcrumbItems = signal<BreadcrumbItem[]>([]);
 
   public ngOnInit(): void {
-    this.auth.getLoggedUser()
-      .subscribe(user => {
-        this.loadFolder(user.folder);
-        this.folderStack.push(user.folder);
-      });
-    
-    this.breadcrumbItems.set([
-      { label: 'home', url: '/' },
-    ]);
+    this.auth.getLoggedUser().subscribe((user) => {
+      this.loadFolder(user.folder);
+      this.folderStack.push(user.folder);
+    });
+
+    this.breadcrumbItems.set([{ label: 'home', url: '/' }]);
   }
 
   protected openFolder(folder: Folder): void {
@@ -65,13 +65,22 @@ export class DocumentListPage implements OnInit {
     }).subscribe(({ folders, documents }) => {
       this.folders.set(folders);
       this.documents.set(documents);
-      });
+    });
   }
 
   protected navigateToForm(): void {
     this.folder.saveInCache(this.currentFolder()!);
-    this.router.navigate(['/documents/register'], { queryParams: { folder: this.currentFolder()?.id } });
+    this.router.navigate(['/documents/register'], {
+      queryParams: { folder: this.currentFolder()?.id },
+    });
   }
+
+  protected edit = (document: Document): void => {
+    this.folder.saveInCache(this.currentFolder()!);
+    this.router.navigate(['/documents/register', document.id], {
+      queryParams: { folder: this.currentFolder()?.id },
+    });
+  };
 
   protected download = (document: Document): void => {
     this.document.download(document).subscribe({
@@ -91,6 +100,21 @@ export class DocumentListPage implements OnInit {
     });
   };
 
+  protected delete = (document: Document): void => {
+    if (!window.confirm(`Delete "${document.title}"? This cannot be undone.`)) {
+      return;
+    }
+
+    this.document.delete(document.id).subscribe({
+      next: () => {
+        this.documents.update((documents) => documents.filter(({ id }) => id !== document.id));
+      },
+      error: (err) => {
+        console.error('Document deletion failed:', err);
+      },
+    });
+  };
+
   protected addNewFolder(): void {
     this.temporaryNewFolder.set({ name: '' });
   }
@@ -99,11 +123,10 @@ export class DocumentListPage implements OnInit {
     const newFolder = this.temporaryNewFolder();
 
     if (newFolder && this.currentFolder()) {
-      this.folder.create(name, this.currentFolder()!)
-        .subscribe(() => {
-          this.loadFolder(this.currentFolder()!);
-          this.temporaryNewFolder.set(null);
-        });
+      this.folder.create(name, this.currentFolder()!).subscribe(() => {
+        this.loadFolder(this.currentFolder()!);
+        this.temporaryNewFolder.set(null);
+      });
     }
   };
 
@@ -114,17 +137,12 @@ export class DocumentListPage implements OnInit {
   protected navigateToFolder = (folder: Folder): void => {
     this.folderStack.push(folder);
 
-    this.breadcrumbItems.set([
-      ...this.breadcrumbItems(),
-      { label: folder.name }
-    ]);
+    this.breadcrumbItems.set([...this.breadcrumbItems(), { label: folder.name }]);
     this.loadFolder(folder);
   };
 
   protected navigateBack = (): void => {
-    this.breadcrumbItems.set(
-      this.breadcrumbItems().slice(0, -1)
-    );
+    this.breadcrumbItems.set(this.breadcrumbItems().slice(0, -1));
     this.folderStack.pop();
     this.loadFolder(this.folderStack.peek()!);
   };

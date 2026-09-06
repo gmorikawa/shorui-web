@@ -2,7 +2,7 @@ import { Observable } from "rxjs";
 import { inject, Service } from "@angular/core";
 
 import { APIService, AuthService } from "@services";
-import { Folder, FolderID } from "@app/folder/types/model";
+import { Folder, FolderID } from "@app/folder/types/models";
 import { CacheService } from "./cache";
 
 @Service()

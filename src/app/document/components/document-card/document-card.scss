@@ -23,6 +23,7 @@ footer {
   margin-top: var(--spacing-sm);
   display: flex;
   justify-content: flex-end;
+  gap: var(--spacing-sm);
 
   button {
     padding: var(--spacing-sm);

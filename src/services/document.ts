@@ -1,10 +1,10 @@
-import { Observable } from "rxjs";
-import { inject, Service } from "@angular/core";
+import { Observable } from 'rxjs';
+import { inject, Service } from '@angular/core';
 
-import { NewDocument, Document } from "@app/document/types/models";
-import { APIService, AuthService } from "@services";
-import { Folder } from "@app/folder/types/model";
-import { File } from "@app/file/types/models";
+import { Document, DocumentID, EditDocument, NewDocument } from '@app/document/types/models';
+import { APIService, AuthService } from '@services';
+import { Folder } from '@app/folder/types/models';
+import { File } from '@app/file/types/models';
 
 @Service()
 export class DocumentService extends APIService {
@@ -12,7 +12,7 @@ export class DocumentService extends APIService {
 
   /**
    * Fetches all documents from the API.
-   * 
+   *
    * @returns An Observable of an array of Document objects.
    */
   public getByFolder(folder: Folder): Observable<Document[]> {
@@ -20,13 +20,18 @@ export class DocumentService extends APIService {
       Authorization: this.auth.getBearerToken(),
     };
 
-    return this.http.get<Document[]>(
-      `${this.apiUrl}/documents/folder/${folder.id}`,
-      { headers }
-    );
+    return this.http.get<Document[]>(`${this.apiUrl}/documents/folder/${folder.id}`, { headers });
   }
 
-  public create(newDocument: NewDocument, folder: Folder, file: File): Observable<Document> {
+  public getById(id: DocumentID): Observable<Document> {
+    const headers = {
+      Authorization: this.auth.getBearerToken(),
+    };
+
+    return this.http.get<Document>(`${this.apiUrl}/documents/${id}`, { headers });
+  }
+
+  public create(newDocument: NewDocument): Observable<Document> {
     const headers = {
       Authorization: this.auth.getBearerToken(),
     };
@@ -38,11 +43,38 @@ export class DocumentService extends APIService {
         description: newDocument.description,
         type_id: newDocument.type.id,
         attributes: newDocument.attributes,
-        file_id: file.id,
-        folder_id: folder.id,
+        file_id: newDocument.file.id,
+        folder_id: newDocument.folder.id,
       },
-      { headers }
+      { headers },
     );
+  }
+
+  public update(id: DocumentID, updatedDocument: EditDocument): Observable<Document> {
+    const headers = {
+      Authorization: this.auth.getBearerToken(),
+    };
+
+    return this.http.put<Document>(
+      `${this.apiUrl}/documents/${id}`,
+      {
+        title: updatedDocument.title,
+        description: updatedDocument.description,
+        type_id: updatedDocument.type.id,
+        attributes: updatedDocument.attributes,
+        file_id: updatedDocument.file?.id,
+        folder_id: updatedDocument.folder.id,
+      },
+      { headers },
+    );
+  }
+
+  public delete(id: DocumentID): Observable<void> {
+    const headers = {
+      Authorization: this.auth.getBearerToken(),
+    };
+
+    return this.http.delete<void>(`${this.apiUrl}/documents/${id}`, { headers });
   }
 
   public download(document: Document): Observable<Blob> {
@@ -50,9 +82,9 @@ export class DocumentService extends APIService {
       Authorization: this.auth.getBearerToken(),
     };
 
-    return this.http.get(
-      `${this.apiUrl}/documents/${document.id}/download`,
-      { headers, responseType: 'blob' }
-    );
+    return this.http.get(`${this.apiUrl}/documents/${document.id}/download`, {
+      headers,
+      responseType: 'blob',
+    });
   }
 }

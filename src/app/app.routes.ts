@@ -45,6 +45,10 @@ export const routes: Routes = [
         component: DocumentFormPage,
       },
       {
+        path: 'documents/register/:id',
+        component: DocumentFormPage,
+      },
+      {
         path: 'document-types',
         component: DocumentTypeListPage,
       },
@@ -68,10 +72,10 @@ export const routes: Routes = [
         path: 'attributes/form/:key',
         component: AttributeFormPage,
       },
-    ]
+    ],
   },
   {
     path: '**',
     redirectTo: 'auth/login',
-  }
+  },
 ];

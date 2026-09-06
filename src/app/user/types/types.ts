@@ -1,5 +1,5 @@
 import { PlainPassword } from "@app/auth/types/models";
-import { Folder } from "@app/folder/types/model";
+import { Folder } from "@app/folder/types/models";
 
 export type UserID = string;
 export type FullName = string;

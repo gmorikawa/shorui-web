@@ -1,66 +1,63 @@
 <card-container>
-  <h1>Register Document</h1>
+  <header>
+    <h1>{{ pageTitle }}</h1>
+  </header>
 
-  <form [formGroup]="documentForm" (ngSubmit)="submit()">
-    <sh-text-input
-      property="title"
-      label="Title"
-      placeholder="Enter title"
-      formControlName="title"
-    />
-
-    <sh-text-input
-      property="description"
-      label="Description"
-      placeholder="Enter description"
-      formControlName="description"
-    />
-
-    <sh-select-input
-      property="type"
-      label="Document Type"
-      placeholder="Select document type"
-      [options]="documentTypes()"
-      [optionLabel]="getLabel"
-      [optionValue]="getValue"
-      formControlName="type"
-    />
-
-    @if (selectedAttributes().length > 0) {
-      <!--
-        Dynamically generate form controls for each selected attribute.
-        The formGroupName directive is used to bind the nested form group for attributes.
-        The usage of ng-container creates a logical container that doesn't render any additional DOM elements,
-        allowing for cleaner HTML structure.
-        -->
-      <ng-container formGroupName="attributes">
-        @for (attribute of selectedAttributes(); track attribute.key) {
-          <sh-text-input
-            [property]="attribute.key"
-            [label]="attribute.label"
-            [placeholder]="'Enter ' + attribute.label"
-            [formControlName]="attribute.key"
-          />
-        }
-      </ng-container>
-    }
-
-    <sh-file-input
-      property="file"
-      label="File"
-      placeholder="Select a file"
-      formControlName="file"
-    />
-
-    @if (documentForm.get('file')?.value) {
-      <document-viewer
-        [binary]="documentForm.get('file')?.value ?? null"
-        type="image"
+  <main>
+    <form [formGroup]="documentForm" (ngSubmit)="submit()">
+      <sh-text-input
+        property="title"
+        label="Title"
+        placeholder="Enter title"
+        formControlName="title"
       />
-    }
 
-    <button base-button type="submit" [disabled]="documentForm.invalid">
-      Register
-    </button>
-  </form>
+      <sh-text-input
+        property="description"
+        label="Description"
+        placeholder="Enter description"
+        formControlName="description"
+      />
+
+      <sh-select-input
+        property="type"
+        label="Document Type"
+        placeholder="Select document type"
+        [options]="documentTypes()"
+        [optionLabel]="getLabel"
+        [optionValue]="getValue"
+        formControlName="type"
+      />
+
+      @if (selectedAttributes().length > 0) {
+        <ng-container formGroupName="attributes">
+          @for (attribute of selectedAttributes(); track attribute.key) {
+            <sh-text-input
+              [property]="attribute.key"
+              [label]="attribute.label"
+              [placeholder]="'Enter ' + attribute.label"
+              [formControlName]="attribute.key"
+            />
+          }
+        </ng-container>
+      }
+
+      <sh-file-input
+        property="file"
+        [label]="isEdit ? 'Replacement File' : 'File'"
+        [placeholder]="isEdit ? 'Select a replacement file' : 'Select a file'"
+        formControlName="file"
+      />
+
+      @if (documentForm.get('file')?.value) {
+        <document-viewer [binary]="documentForm.get('file')?.value ?? null" type="image" />
+      }
+
+      <button base-button type="submit" [disabled]="documentForm.invalid">
+        {{ submitButtonLabel }}
+      </button>
+
+      <button base-button type="button" (click)="cancel()">Cancel</button>
+    </form>
+  </main>
 </card-container>

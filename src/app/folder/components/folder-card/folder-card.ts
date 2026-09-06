@@ -2,7 +2,7 @@ import { Component, input, output } from '@angular/core';
 
 import { FolderCardBase } from '../folder-card-base/folder-card-base';
 
-import { Folder } from '@app/folder/types/model';
+import { Folder } from '@app/folder/types/models';
 
 @Component({
   selector: 'folder-card',

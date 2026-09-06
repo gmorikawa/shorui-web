@@ -2,7 +2,7 @@ import { Component, input } from '@angular/core';
 
 import { FolderCardBase } from '../folder-card-base/folder-card-base';
 
-import { NewFolder } from '@app/folder/types/model';
+import { NewFolder } from '@app/folder/types/models';
 import { TextInput } from '@components/form/text-input/text-input';
 import { BaseButtonDirective } from '@directives/base-button/base-button';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
