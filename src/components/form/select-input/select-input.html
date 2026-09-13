@@ -15,11 +15,19 @@
   [class.success]="!error()"
 >
   @if (placeholder()) {
-  <option value="" disabled selected>{{ placeholder() }}</option>
+  <option
+    value=""
+    [selected]="!value()"
+  >
+    {{ placeholder() }}
+  </option>
   }
 
   @for (option of options(); track optionValue()(option)) {
-  <option [value]="optionValue()(option)">
+  <option
+    [value]="optionValue()(option)"
+    [selected]="optionValue()(option) === value()"
+  >
     {{ optionLabel()(option) }}
   </option>
   }

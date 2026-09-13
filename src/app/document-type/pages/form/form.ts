@@ -1,10 +1,8 @@
-import { AsyncPipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { tap } from 'rxjs';
 
-import { AttributeService, DocumentTypeService } from '@services';
+import { DocumentTypeService } from '@services';
 import {
   DocumentType,
   DocumentTypeID,
@@ -12,86 +10,100 @@ import {
   Text,
   UniqueName,
 } from '@app/document-type/types/models';
+import { Attribute } from '@app/attribute/types/models';
 import { BaseButtonDirective } from '@directives/base-button/base-button';
 import { TextInput } from '@components/form/text-input/text-input';
-import { CheckboxInput } from '@components/form/checkbox-input/checkbox-input';
 import { CardContainer } from '@components/containers/card-container/card-container';
-import { Attribute } from '@app/attribute/types/models';
+import { SelectInput } from '@components/form/select-input/select-input';
 import { FeedbackService } from 'services/feedback';
+import { AttributeType, AttributeTypeMetadata } from '@app/attribute/types/enums';
 
 @Component({
   selector: 'sh-document-type-form-page',
   imports: [
-    AsyncPipe,
     BaseButtonDirective,
     CardContainer,
     TextInput,
-    CheckboxInput,
+    SelectInput,
     ReactiveFormsModule,
-  ],
+],
   templateUrl: './form.html',
   styleUrl: './form.scss',
 })
-export class DocumentTypeFormPage implements OnInit {
+export class DocumentTypeFormPage implements OnInit, OnDestroy {
   private readonly router = inject(Router);
-  private readonly attributes = inject(AttributeService);
   private readonly documentTypes = inject(DocumentTypeService);
   private readonly activeRoute = inject(ActivatedRoute);
   private readonly feedback = inject(FeedbackService);
 
-  protected $attributes = this.attributes.getAll().pipe(
-    tap({
-      error: () => {
-        this.feedback.showErrorMessage('Unable to load attributes. Please try again.');
-      },
-    }),
-  );
-  protected getAttributeLabel = (attribute: Attribute): string => attribute.label;
-  protected getAttributeKey = (attribute: Attribute): string => attribute.key;
+  protected readonly form: DocumentTypeFormGroup;
+  protected readonly attributeTypes = AttributeTypeMetadata.getKeys();
+
   protected id: DocumentTypeID | null = null;
   protected pageTitle = '';
   protected submitButtonLabel = '';
   protected isEdit = false;
 
-  protected readonly documentTypeForm = new FormGroup({
-    name: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-    description: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-    attributes: new FormControl<Attribute[]>([], {
-      nonNullable: false,
-    }),
-  });
+  protected get attributes(): FormArray {
+    if (!this.form) {
+      throw new Error('Form is not initialized.');
+    }
+
+    return this.form.attributes;
+  }
+
+  protected getAttributeLabel(key: AttributeType): string {
+    return AttributeTypeMetadata.getLabelByKey(key);
+  }
+
+  protected getAttributeValue(key: AttributeType): string {
+    return key;
+  }
+
+  constructor() {
+    const id = this.activeRoute.snapshot.paramMap.get('id') as DocumentTypeID | null;
+
+    this.isEdit = Boolean(id);
+    this.form = (this.isEdit)
+      ? new UpdateDocumentTypeFormGroup()
+      : new CreateDocumentTypeFormGroup();
+    this.id = id;
+  }
 
   ngOnInit(): void {
-    this.id = this.activeRoute.snapshot.paramMap.get('id') as DocumentTypeID | null;
-    this.isEdit = Boolean(this.id);
-    this.setTitle(this.isEdit);
-    this.setSubmitButtonLabel(this.isEdit);
-
     if (this.id) {
-      this.documentTypes.getById(this.id).subscribe({
-        next: (documentType) => {
-          this.documentTypeForm.patchValue({
-            name: documentType.name,
-            description: documentType.description,
-            attributes: documentType.attributes,
-          });
-        },
-        error: () => {
-          this.feedback.showErrorMessage('Unable to load document type data. Please try again.');
-        },
-      });
+      this.documentTypes
+        .getById(this.id)
+        .subscribe({
+          next: (documentType) => {
+            this.form!.documentType = documentType;
+          },
+          error: () => {
+            this.feedback.showErrorMessage('Unable to load document type data. Please try again.');
+          },
+        });
     }
   }
 
+  ngOnDestroy(): void {
+    // Perform any necessary cleanup here
+  }
+
+  protected addAttribute(initialValue?: Attribute): void {
+    this.form.addAttribute(initialValue);
+  }
+
+  protected removeAttribute(index: number): void {
+    this.form.removeAttribute(index);
+  }
+
   protected submit(): void {
-    if (this.documentTypeForm.invalid) {
-      this.documentTypeForm.markAllAsTouched();
+    if (!this.form) {
+      throw new Error('Form is not initialized.');
+    }
+
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
       return;
     }
 
@@ -107,10 +119,14 @@ export class DocumentTypeFormPage implements OnInit {
   }
 
   private create() {
+    if (!this.form) {
+      throw new Error('Form is not initialized.');
+    }
+
     const documentType: NewDocumentType = {
-      name: this.documentTypeForm.get('name')?.value as UniqueName,
-      description: this.documentTypeForm.get('description')?.value as Text,
-      attributes: this.documentTypeForm.controls.attributes.value || [],
+      name: this.form.get('name')?.value as UniqueName,
+      description: this.form.get('description')?.value as Text,
+      attributes: this.form.get('attributes')?.value as Attribute[],
     };
 
     this.documentTypes
@@ -126,11 +142,15 @@ export class DocumentTypeFormPage implements OnInit {
   }
 
   private update() {
+    if (!this.form) {
+      throw new Error('Form is not initialized.');
+    }
+
     const documentType: DocumentType = {
       id: this.id!,
-      name: this.documentTypeForm.get('name')?.value as UniqueName,
-      description: this.documentTypeForm.get('description')?.value as Text,
-      attributes: this.documentTypeForm.controls.attributes.value || [],
+      name: this.form.get('name')?.value as UniqueName,
+      description: this.form.get('description')?.value as Text,
+      attributes: this.form.get('attributes')?.value as Attribute[],
     };
 
     this.documentTypes
@@ -144,12 +164,113 @@ export class DocumentTypeFormPage implements OnInit {
         },
       });
   }
+}
 
-  private setTitle(isEdit: boolean): void {
-    this.pageTitle = isEdit ? 'Edit Document Type' : 'Register Document Type';
+abstract class DocumentTypeFormGroup extends FormGroup {
+  abstract get pageTitle(): string;
+  abstract get submitButtonLabel(): string;
+
+  constructor(initialValue?: DocumentType) {
+    super({
+      name: new FormControl(initialValue?.name ?? '', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      description: new FormControl(initialValue?.description ?? '', {
+        nonNullable: false,
+      }),
+      attributes: new FormArray<AttributeFormGroup>(
+        (initialValue?.attributes ?? []).map(attr => new AttributeFormGroup(attr))
+      ),
+    });
   }
 
-  private setSubmitButtonLabel(isEdit: boolean): void {
-    this.submitButtonLabel = isEdit ? 'Update' : 'Register';
+  set documentType(value: DocumentType) {
+    this.patchValue({
+      name: value.name,
+      description: value.description,
+    });
+
+    value.attributes.forEach(attr => {
+      this.addAttribute(attr);
+    });
+  }
+
+  get name(): FormControl<string> {
+    return this.get('name') as FormControl<string>;
+  }
+
+  get description(): FormControl<string> {
+    return this.get('description') as FormControl<string>;
+  }
+
+  get attributes(): FormArray<AttributeFormGroup> {
+    return this.get('attributes') as FormArray<AttributeFormGroup>;
+  }
+
+  public addAttribute(attribute?: Attribute): void {
+    this.attributes.push(new AttributeFormGroup(attribute));
+  }
+
+  public removeAttribute(index: number): void {
+    this.attributes.removeAt(index);
+  }
+}
+
+class CreateDocumentTypeFormGroup extends DocumentTypeFormGroup {
+  get pageTitle(): string {
+    return 'Register Document Type';
+  }
+
+  get submitButtonLabel(): string {
+    return 'Register';
+  }
+}
+
+class UpdateDocumentTypeFormGroup extends DocumentTypeFormGroup {
+  get pageTitle(): string {
+    return 'Edit Document Type';
+  }
+
+  get submitButtonLabel(): string {
+    return 'Update';
+  }
+}
+
+class AttributeFormGroup extends FormGroup {
+  constructor(initialValue?: Attribute) {
+    super({
+      key: new FormControl(initialValue?.key ?? '', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      label: new FormControl(initialValue?.label ?? '', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      type: new FormControl(initialValue?.type ?? '', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      description: new FormControl(initialValue?.description ?? '', {
+        nonNullable: false,
+      }),
+    });
+  }
+
+  get key(): FormControl<string> {
+    return this.get('key') as FormControl<string>;
+  }
+
+  get label(): FormControl<string> {
+    return this.get('label') as FormControl<string>;
+  }
+
+  get type(): FormControl<string> {
+    return this.get('type') as FormControl<string>;
+  }
+
+  get description(): FormControl<string> {
+    return this.get('description') as FormControl<string>;
   }
 }

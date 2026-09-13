@@ -1,10 +1,10 @@
 <card-container>
   <header>
-    <h1>{{ pageTitle }}</h1>
+    <h1>{{ form.pageTitle }}</h1>
   </header>
 
   <main>
-    <form [formGroup]="documentTypeForm" (ngSubmit)="submit()">
+    <form [formGroup]="form" (ngSubmit)="submit()">
       <sh-text-input
         property="name"
         label="Name"
@@ -19,17 +19,60 @@
         formControlName="description"
       />
 
-      <sh-checkbox-input
-        property="attributes"
-        label="Attributes"
-        [options]="($attributes | async) ?? []"
-        [getKey]="getAttributeKey"
-        [getLabel]="getAttributeLabel"
-        formControlName="attributes"
-      />
+      <div class="attributes-section" formArrayName="attributes">
+        <div class="attributes-header">
+          <h2>Attributes</h2>
+          <button base-button type="button" (click)="addAttribute()">
+            Add Attribute
+          </button>
+        </div>
 
-      <button base-button type="submit" [disabled]="documentTypeForm.invalid">
-        {{ submitButtonLabel }}
+        @for (attribute of attributes.controls ?? []; track attribute) {
+        <fieldset class="attribute-item" [formGroupName]="$index">
+          <legend class="attribute-legend">Attribute #{{ $index + 1 }}</legend>
+
+          <div class="attribute-fields">
+            <sh-text-input
+              property="key"
+              label="Key"
+              placeholder="Enter key"
+              formControlName="key"
+            />
+
+            <sh-text-input
+              property="label"
+              label="Label"
+              placeholder="Enter label"
+              formControlName="label"
+            />
+
+            <sh-select-input
+              property="type"
+              label="Type"
+              placeholder="Enter type"
+              [options]="attributeTypes"
+              [optionValue]="getAttributeValue"
+              [optionLabel]="getAttributeLabel"
+              formControlName="type"
+            />
+
+            <sh-text-input
+              property="description"
+              label="Description"
+              placeholder="Enter description"
+              formControlName="description"
+            />
+          </div>
+
+          <button base-button type="button" (click)="removeAttribute($index)" class="remove-button">
+            Remove Attribute
+          </button>
+        </fieldset>
+        }
+      </div>
+
+      <button base-button type="submit" [disabled]="form.invalid">
+        {{ form.submitButtonLabel }}
       </button>
 
       <button base-button type="button" (click)="cancel()">

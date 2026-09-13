@@ -46,7 +46,7 @@ export class DocumentTypeService extends APIService {
 
     return this.http.post<DocumentType>(
       `${this.apiUrl}/document-types`,
-      this.normalizeAttributes(newDocumentType),
+      newDocumentType,
       { headers }
     );
   }
@@ -58,15 +58,8 @@ export class DocumentTypeService extends APIService {
 
     return this.http.put<DocumentType>(
       `${this.apiUrl}/document-types/${id}`,
-      this.normalizeAttributes(documentType),
+      documentType,
       { headers }
     );
-  }
-
-  private normalizeAttributes(documentType: DocumentType | NewDocumentType): any {
-    return {
-      ...documentType,
-      attributes: documentType.attributes.map(attribute => attribute?.key ?? attribute),
-    };
   }
 }

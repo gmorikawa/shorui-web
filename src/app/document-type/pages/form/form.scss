@@ -7,3 +7,48 @@ form {
   flex-direction: column;
   gap: var(--spacing-md);
 }
+
+.attributes-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.attributes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    font-size: var(--font-size-lg);
+  }
+}
+
+.attribute-item {
+  border: 2px solid var(--color-black);
+  box-shadow: 2px 2px 0 var(--color-black);
+  background-color: var(--color-primary);
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin: 0;
+
+  .attribute-legend {
+    font-weight: bold;
+    font-size: var(--font-size-sm);
+    padding: 0 var(--spacing-xs);
+    background-color: var(--color-primary);
+    border: 2px solid var(--color-black);
+  }
+
+  .attribute-fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+}
+
+.remove-button {
+  background-color: var(--color-error);
+}
